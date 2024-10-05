@@ -1,5 +1,5 @@
 from flask import Flask
-from app.templates.auth.routes import auth_bp
+from app.blueprints.auth.routes import auth_bp
 
 def create_app():
     app = Flask(__name__)
