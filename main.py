@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.routes.routes import get_apps_router
+from src.routes.routes import api_router
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -36,7 +36,7 @@ def get_application() -> FastAPI:
     #     version=settings.VERSION
     # )
     application = FastAPI()
-    application.include_router(get_apps_router())
+    application.include_router(api_router)
 
     application.add_middleware(
         CORSMiddleware,
@@ -61,4 +61,4 @@ app = get_application()
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", reload=True)

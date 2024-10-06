@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Enum, DateTime
+from sqlalchemy import Column, String, ForeignKey, Enum, DateTime
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import UUID
 from src.config.database import Base
 import enum
 
@@ -16,9 +17,9 @@ class AppointmentStatus(enum.Enum):
 class Appointment(Base):
     __tablename__ = 'appointments'
 
-    id = Column(Integer, primary_key=True, index=True)
-    patient_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
-    therapist_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True)
+    patient_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    therapist_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     type = Column(Enum(AppointmentType), nullable=False)
     reason = Column(String(64), nullable=True)
     status = Column(Enum(AppointmentStatus), nullable=False)

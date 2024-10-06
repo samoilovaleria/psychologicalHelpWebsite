@@ -6,11 +6,9 @@ from .controllers import therapist_routes
 from .controllers import roles_routes
 
 
-def get_apps_router():
-    api_router = APIRouter()
-    api_router.include_router(users_routes.router)
-    api_router.include_router(appointment_routes.router)
-    api_router.include_router(reviews_routes.router)
-    api_router.include_router(therapist_routes.router)
-    api_router.include_router(roles_routes.router)
-    return api_router
+api_router = APIRouter()
+api_router.include_router(users_routes.router)
+api_router.include_router(appointment_routes.router)
+api_router.include_router(reviews_routes.router)
+api_router.include_router(therapist_routes.router)
+api_router.include_router(roles_routes.router)
