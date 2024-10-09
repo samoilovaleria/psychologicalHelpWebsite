@@ -9,13 +9,6 @@ from src.config.database import get_async_db
 
 router = APIRouter(prefix="/users", tags=["users"])
 
-# @router.get("/{user_id}", response_model=UserBase)
-# def read_user(user_id: int):
-#     user = get_user_by_id(user_id)
-#     if user is None:
-#         raise HTTPException(status_code=404, detail="User not found")
-#     return user
-
 @router.get("/{user_id}", response_model=UserBase)
 async def read_user(user_id: int):
     user = await get_user_by_id(user_id)
