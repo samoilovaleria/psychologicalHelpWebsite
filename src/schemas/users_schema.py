@@ -11,4 +11,9 @@ class UserCreateRequest(BaseModel):
 
 class UserBase(BaseModel):
     first_name: str
-    # Остальные поля...
+    middle_name: Optional[str] = None
+    last_name: str
+    phone_number: str
+    email: Optional[str] = None
+    social_media: Optional[str] = None
+    password: str
