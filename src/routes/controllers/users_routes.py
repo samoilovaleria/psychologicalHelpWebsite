@@ -1,3 +1,4 @@
+from uuid import UUID
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException, Query, APIRouter
@@ -6,6 +7,7 @@ from src.services.users_service import get_user_by_id, register_user
 from src.schemas.users_schema import UserBase, UserCreateRequest
 from src.config.database import get_db
 from src.config.database import get_async_db
+from sqlalchemy.exc import IntegrityError
 
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -30,8 +32,10 @@ async def read_user(user_id: int):
 def read_test_user():
     return {'test': 123}
 
-
 @router.post("/register", response_model=UserBase)
 async def register_users(user_data: UserCreateRequest):
-    new_user = await register_user(user_data)
-    return new_user
+    try:
+        new_user = await register_user(user_data)
+        return UserBase.from_orm(new_user)
+    except IntegrityError:
+        raise HTTPException(status_code=400, detail="Пользователь с таким email уже существует.")
