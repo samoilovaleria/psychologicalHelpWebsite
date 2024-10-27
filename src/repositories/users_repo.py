@@ -4,6 +4,7 @@ from sqlalchemy.future import select
 from src.config.database import get_db
 from src.config.database import get_async_db
 from sqlalchemy.ext.asyncio import AsyncSession
+from uuid import UUID
 
 # def get_user(user_id: int):
 #     # , db: Session = Depends(get_db)
@@ -16,7 +17,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 
-async def get_user(user_id: int):
+async def get_user(user_id: UUID):
     async with get_async_db() as session:
         result = await session.execute(select(User).filter(User.id == user_id))
     return result.scalar_one_or_none()
