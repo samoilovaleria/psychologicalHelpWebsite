@@ -1,19 +1,19 @@
+import uuid
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from src.config.database import Base
-from sqlalchemy.dialects.postgresql import UUID
-
 
 class User(Base):
     __tablename__ = 'users'
 
-    id = Column(UUID(as_uuid=True), primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4) 
     first_name = Column(String(50), nullable=False)
-    middle_name = Column(String(50), nullable=False)
+    middle_name = Column(String(50), nullable=True)
     last_name = Column(String(50), nullable=False)
     phone_number = Column(String(20), nullable=False)
-    email = Column(String(64), unique=True, nullable=True)
-    social_media = Column(String(50), nullable=False)
+    email = Column(String(64), unique=True)
+    social_media = Column(String(50), nullable=True)
     password = Column(String(64), nullable=False)
 
     roles = relationship("Role", back_populates="user")

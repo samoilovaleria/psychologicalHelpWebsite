@@ -1,7 +1,11 @@
-from uuid import UUID
-
-from src.services.helpers import create_access_token, verify_password
+from src.repositories.users_repo import get_user, create_user
+from src.repositories.helpers import create_access_token, verify_password
 from src.repositories.users_repo import get_user, get_user_by_email
+from sqlalchemy.dialects.postgresql import UUID
+
+async def register_user(user_data):
+    return await create_user(user_data)
+
 
 async def get_user_by_id(user_id: UUID):
     return await get_user(user_id)
