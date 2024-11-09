@@ -7,6 +7,7 @@ from src.services.users_service import get_user_by_id, register_user
 from src.schemas.users_schema import UserBase, UserCreateRequest
 from src.config.database import get_db
 from src.config.database import get_async_db
+from uuid import UUID
 from sqlalchemy.exc import IntegrityError
 
 
@@ -21,7 +22,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 #     return user
 
 @router.get("/{user_id}", response_model=UserBase)
-async def read_user(user_id: int):
+async def read_user(user_id: UUID):
     user = await get_user_by_id(user_id)
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")

@@ -2,6 +2,7 @@ from src.models.roles_model import Role
 from sqlalchemy.dialects.postgresql import UUID
 from src.config.database import get_async_db
 from sqlalchemy.future import select
+from uuid import UUID
 
 
 async def get_role_by_user_id(user_id: UUID):
