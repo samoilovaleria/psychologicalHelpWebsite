@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException, Query, APIRouter, Request
-from starlette.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT
+from starlette.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT, HTTP_401_UNAUTHORIZED
 from src.services.users_service import get_user_by_id, user_login
-from src.schemas.users_schema import UserBase
+from src.schemas.users_schema import UserBase, LoginRequest
 from src.config.database import get_db
 from src.config.database import get_async_db
 
@@ -17,18 +17,13 @@ async def read_user(user_id: int):
     return user
 
 
-# Мне не кажется, что request - правильный аргумент для этой функции, но
-# по-другому не знаю, как получить данные запроса в формате json.
 @router.post("/login")
-async def login(request: Request):
-    user_data = await request.json()
-    email = user_data["email"]
-    password = user_data["password"]
+async def login(data: LoginRequest):
+    token = await user_login(data.email, data.password)
 
-    token = await user_login(email, password)
-    if token is None:
+    if not token:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials"
         )
 
