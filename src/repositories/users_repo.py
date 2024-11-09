@@ -10,16 +10,6 @@ from src.models.roles_model import UserRole, Role
 from sqlalchemy.dialects.postgresql import UUID
 from src.repositories.helpers import create_access_token, hash_password
 
-# def get_user(user_id: int):
-#     # , db: Session = Depends(get_db)
-#     # return db.query(User).filter(User.id == user_id).first()
-
-#     # with self._session_factory() as session:
-#     with get_db() as session:
-#         user = session.query(User).filter(User.id == user_id).first()
-#     return user
-
-
 
 async def get_user(user_id: UUID):
     async with get_async_db() as session:
