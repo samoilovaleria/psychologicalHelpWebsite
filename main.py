@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlalchemy.ext.declarative import declarative_base
-from src.config.database import Base, DATABASE_URL
+from src.config.database import Base, config
 
 # # Определяем базу для моделей
 # Base = declarative_base()
@@ -14,18 +14,18 @@ from src.config.database import Base, DATABASE_URL
 async def reset_database(engine: AsyncEngine):
     async with engine.begin() as conn:
         # Удаление всех таблиц
-        print("Удаление всех таблиц...")
+        # print("Удаление всех таблиц...")
         await conn.run_sync(Base.metadata.drop_all)
         
         # Создание новых таблиц
-        print("Создание таблиц...")
+        # print("Создание таблиц...")
         await conn.run_sync(Base.metadata.create_all)
 
-    print("Таблицы успешно пересозданы.")
+    # print("Таблицы успешно пересозданы.")
 
 
 # Создаем асинхронный движок подключения
-engine = create_async_engine(DATABASE_URL, echo=True)
+engine = create_async_engine(config.DATABASE_URL, echo=True)
 
 
 def get_application() -> FastAPI:

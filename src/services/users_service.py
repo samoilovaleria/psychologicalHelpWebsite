@@ -1,13 +1,9 @@
-from passlib.context import CryptContext
+from uuid import UUID
 
 from src.services.helpers import create_access_token, verify_password
 from src.repositories.users_repo import get_user, get_user_by_email
 
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-
-async def get_user_by_id(user_id: int):
+async def get_user_by_id(user_id: UUID):
     return await get_user(user_id)
 
 

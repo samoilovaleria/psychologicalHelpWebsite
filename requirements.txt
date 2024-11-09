@@ -1,8 +1,10 @@
 fastapi==0.115.0
-pydantic==2.9.2
-sqlalchemy==2.0.35
 passlib==1.7.4
 pyjwt==2.9.0
-asyncpg==0.29.0
-uvicorn==0.31.0
+pydantic==2.9.2
 pydantic[email]
+uvicorn==0.31.0
+SQLAlchemy==2.0.35
+asyncpg==0.29.0
+starlette==0.38.6
+greenlet==3.1.1
