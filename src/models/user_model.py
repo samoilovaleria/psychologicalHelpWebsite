@@ -12,7 +12,7 @@ class User(Base):
     middle_name = Column(String(50), nullable=False)
     last_name = Column(String(50), nullable=False)
     phone_number = Column(String(20), nullable=False)
-    email = Column(String(64), nullable=True)
+    email = Column(String(64), unique=True, nullable=True)
     social_media = Column(String(50), nullable=False)
     password = Column(String(64), nullable=False)
 
