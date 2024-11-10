@@ -1,10 +1,19 @@
-from fastapi import HTTPException, APIRouter
-from src.services.appointment_service import get_appointment_by_id
-from src.schemas.appointment_schema import AppointmentBase
+from fastapi import HTTPException, APIRouter, Response
+
+from src.services.appointment_service import (
+    get_appointment_by_id,
+    create_appointment as srv_create_appointment
+)
+
+from src.schemas.appointment_schema import (
+    AppointmentBase,
+    AppointmentCreateRequest
+)
+
 from uuid import UUID
 
-router = APIRouter(prefix="/appointments", tags=["appointments"])
 
+router = APIRouter(prefix="/appointments", tags=["appointments"])
 
 @router.get("/{appointment_id}", response_model=AppointmentBase)
 async def read_appointment(appointment_id: UUID):
@@ -12,3 +21,13 @@ async def read_appointment(appointment_id: UUID):
     if appointment is None:
         raise HTTPException(status_code=404, detail="Appointment not found")
     return appointment
+
+
+@router.post("/create")
+async def create_appointment(appointment: AppointmentCreateRequest):
+    try:
+        await srv_create_appointment(appointment)
+    except:
+        raise HTTPException(status_code=400, detail="Invalid data")
+
+    return Response(status_code=200)
