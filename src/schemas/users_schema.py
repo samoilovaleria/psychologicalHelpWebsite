@@ -1,5 +1,7 @@
 from pydantic import BaseModel, EmailStr
 
+from src.models.roles_model import UserRole
+
 class UserCreateRequest(BaseModel):
     first_name: str
     middle_name: str | None = None
@@ -8,7 +10,7 @@ class UserCreateRequest(BaseModel):
     email: EmailStr = None
     social_media: str | None = None
     password: str
-    role: str = None
+    role: UserRole
 
 class UserBase(BaseModel):
     first_name: str

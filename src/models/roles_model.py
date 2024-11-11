@@ -14,8 +14,7 @@ class UserRole(enum.Enum):
 class Role(Base):
     __tablename__ = 'roles'
     
-    id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'))
-    role = Column(Enum(UserRole))
+    role = Column(Enum(UserRole), primary_key=True, nullable=False)
 
     user = relationship("User", back_populates="roles")

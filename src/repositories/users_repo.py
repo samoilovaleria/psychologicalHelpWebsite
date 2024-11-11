@@ -38,7 +38,6 @@ async def create_user(user_data):
 
             # Коммитим, чтобы получить ID пользователя
             await session.commit()
-            await session.refresh(new_user)
 
             # Проверка роли и создание роли
             user_role = UserRole(user_data.role) if isinstance(user_data.role, str) else user_data.role
@@ -49,7 +48,6 @@ async def create_user(user_data):
 
             # Коммитим роль и обновляем объект роли
             await session.commit()
-            await session.refresh(new_role)
 
             # Генерируем токен
             token = create_access_token({"sub": new_user.email})
