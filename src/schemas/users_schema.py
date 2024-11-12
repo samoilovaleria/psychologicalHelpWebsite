@@ -1,3 +1,4 @@
+from uuid import UUID
 from pydantic import BaseModel, EmailStr, Field
 
 class UserCreateRequest(BaseModel):
@@ -11,6 +12,7 @@ class UserCreateRequest(BaseModel):
     role: str = None
 
 class UserBase(BaseModel):
+    id: UUID
     first_name: str
     middle_name: str | None = None
     last_name: str
