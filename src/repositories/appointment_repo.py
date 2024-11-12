@@ -7,8 +7,7 @@ from src.models.appointments_model import (
 
 from src.config.database import get_async_db
 from sqlalchemy.future import select
-from sqlalchemy import insert
-from uuid import UUID, uuid4
+from uuid import UUID
 from datetime import datetime
 
 
@@ -30,7 +29,6 @@ async def create_appointment(
 ):
     async with get_async_db() as session:
         new_appointment = Appointment(
-            id=uuid4(),
             patient_id=patient_id,
             therapist_id=therapist_id,
             type=type,

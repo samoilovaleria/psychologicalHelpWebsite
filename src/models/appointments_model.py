@@ -2,7 +2,9 @@ from sqlalchemy import Column, String, ForeignKey, Enum, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from src.config.database import Base
+
 import enum
+import uuid
 
 class AppointmentType(enum.Enum):
     Offline = 'Offline'
@@ -17,7 +19,7 @@ class AppointmentStatus(enum.Enum):
 class Appointment(Base):
     __tablename__ = 'appointments'
 
-    id = Column(UUID(as_uuid=True), primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
     patient_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     therapist_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     type = Column(Enum(AppointmentType), nullable=False)

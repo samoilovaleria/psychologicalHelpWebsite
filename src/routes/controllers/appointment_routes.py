@@ -7,7 +7,8 @@ from src.services.appointment_service import (
 
 from src.schemas.appointment_schema import (
     AppointmentBase,
-    AppointmentCreateRequest
+    AppointmentCreateRequest,
+    AppointmentCreateResponse
 )
 
 from uuid import UUID
@@ -23,11 +24,11 @@ async def read_appointment(appointment_id: UUID):
     return appointment
 
 
-@router.post("/create")
+@router.post("/create", response_model=AppointmentCreateResponse)
 async def create_appointment(appointment: AppointmentCreateRequest):
     try:
-        await srv_create_appointment(appointment)
+        appointment_id = await srv_create_appointment(appointment)
     except:
         raise HTTPException(status_code=400, detail="Invalid data")
 
-    return Response(status_code=200)
+    return {"appointment_id": appointment_id}

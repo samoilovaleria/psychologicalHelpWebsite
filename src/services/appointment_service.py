@@ -29,11 +29,13 @@ async def create_appointment(appointment_data):
     status = AppointmentStatus.Accepted
     venue = appointment_data.venue
 
-    therapist_id = appointment_data.therapist_id
-    role = get_role_by_user_id(therapist_id)
-
+    role = get_role_by_user_id(appointment_data.therapist_id)
     if role.role != UserRole.Therapist:
-        raise HTTPException(409, "The user isn't a therapist")
+        raise ValueError("The therapist has no therapist role")
+
+    role = get_role_by_user_id(appointment_data.patient_id)
+    if role.role not in (UserRole.Student, UserRole.Stuff):
+        raise ValueError("The patient has no patient roles")
 
 
     # Встречаемся лично на месте работы психолога

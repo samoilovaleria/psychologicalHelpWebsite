@@ -27,3 +27,7 @@ class AppointmentCreateRequest(BaseModel):
     reason: str | None = None
     remind_time: str | None = None
     venue: str | None = None
+
+
+class AppointmentCreateResponse(BaseModel):
+    appointment_id: UUID
