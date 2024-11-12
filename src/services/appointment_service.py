@@ -1,9 +1,12 @@
+from fastapi import HTTPException
 from src.repositories.appointment_repo import (
     get_appointment,
     create_appointment as db_create_appointment
 )
 
 from src.repositories.therapist_repo import get_therapist
+from src.repositories.roles_repo import get_role_by_user_id
+from src.models.roles_model import UserRole
 
 from src.models.appointments_model import (
     AppointmentType,
@@ -25,6 +28,13 @@ async def create_appointment(appointment_data):
         remind_time = datetime.fromisoformat(appointment_data.remind_time)
     status = AppointmentStatus.Accepted
     venue = appointment_data.venue
+
+    therapist_id = appointment_data.therapist_id
+    role = get_role_by_user_id(therapist_id)
+
+    if role.role != UserRole.Therapist:
+        raise HTTPException(409, "The user isn't a therapist")
+
 
     # Встречаемся лично на месте работы психолога
     if appointment_data.type == AppointmentType.Offline:
