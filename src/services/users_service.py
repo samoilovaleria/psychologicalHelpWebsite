@@ -16,7 +16,7 @@ async def get_user_by_email(email: str):
 
 
 async def user_login(email: str, password: str):
-    user = await get_user_by_email(email)
+    user = await repo_get_user_by_email(email)
     if not user or not verify_password(password, user.password):
         return None
 
