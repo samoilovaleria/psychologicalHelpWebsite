@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlalchemy.ext.declarative import declarative_base
-from src.config.database import Base, config
+from src.config.database import Base, config, RESET_DB_ON_START
 
 # # Определяем базу для моделей
 # Base = declarative_base()
@@ -52,7 +52,8 @@ def get_application() -> FastAPI:
     @application.on_event("startup")
     async def on_startup():
         # Вызов функции сброса и создания таблиц
-        await reset_database(engine)
+        if RESET_DB_ON_START:
+            await reset_database(engine)
 
     return application
 

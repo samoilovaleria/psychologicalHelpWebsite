@@ -1,7 +1,10 @@
 from datetime import datetime, timedelta
 import jwt
+from jwt import ExpiredSignatureError, InvalidTokenError
 from passlib.context import CryptContext
 from src.config.configs import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+from fastapi import HTTPException, Request, Response
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -15,3 +18,37 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
+
+def get_user_email_from_token(token: str) -> str:
+    try:
+        # Декодируем токен и извлекаем полезные данные
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        
+        # Получаем email пользователя
+        if "email" in payload:
+            return payload["email"]
+        else:
+            raise ValueError("Email not found in token")
+    
+    except ExpiredSignatureError:
+        raise ValueError("Token has expired")
+    except InvalidTokenError:
+        raise ValueError("Invalid token")
+    
+async def get_token_from_cookie(request: Request) -> str:
+    token = request.cookies.get("access_token")
+    if token is None:
+        raise HTTPException(status_code=401, detail="Token not found in cookies")
+        # TODO: перенаправление на вход в аккаунт
+    return token
+
+def set_token_in_cookie(response: Response, token: str):
+    response.set_cookie(
+        key="access_token",  # Имя cookie
+        value=token,  # Значение cookie (сам токен)
+        max_age=timedelta(hours=1),  # Время жизни cookie (например, 1 час)
+        expires=timedelta(hours=1),  # Установка времени истечения cookie
+        httponly=True,  # Запрещает доступ к cookie через JavaScript
+        secure=True,  # Использовать только через HTTPS
+        samesite="Strict",  # Ограничение использования cookie в контексте другого сайта
+    )
