@@ -1,6 +1,8 @@
 from uuid import UUID
 from pydantic import BaseModel, EmailStr, Field
 
+from src.models.roles_model import UserRole
+
 class UserCreateRequest(BaseModel):
     first_name: str
     middle_name: str | None = None
@@ -9,7 +11,7 @@ class UserCreateRequest(BaseModel):
     email: EmailStr = None
     social_media: str | None = None
     password: str = Field(min_length=8)
-    role: str = None
+    role: UserRole
 
 class UserBase(BaseModel):
     id: UUID
