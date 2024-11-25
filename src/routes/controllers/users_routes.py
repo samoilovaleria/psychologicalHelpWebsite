@@ -37,9 +37,9 @@ async def user(email: Annotated[str, Query()]):
 
 # TODO: Спросить, после регистрации сразу входиться в аккаунт или отправляет на форму входа
 @router.post("/register", response_model=TokenResponse)
-async def register_users(user_data: UserCreateRequest):
+async def register_users(user_data: UserCreateRequest, response: Response):
     try:
-        new_user = await register_user(user_data)
+        new_user = await register_user(user_data, response)
         return TokenResponse(status_code=201, token=new_user['access_token'])
     except IntegrityError:
         raise HTTPException(status_code=400, detail="User with this email already exists")
@@ -56,22 +56,3 @@ async def login(data: LoginRequest, response: Response):
         )
 
     return TokenResponse(status_code=200, token=token['access_token'])
-
-@router.post("/test", response_model=IDResponse)
-async def test_token(request: Request):
-    try:
-        token = await get_token(request)
-        if not token:
-            raise HTTPException(
-                status_code=HTTP_401_UNAUTHORIZED,
-                detail="Invalid credentials"
-            )
-        user = await get_user_by_token(token)
-        if not token:
-            raise HTTPException(
-                status_code=HTTP_401_UNAUTHORIZED,
-                detail="Invalid credentials"
-            )
-        return IDResponse(status_code=200, id=user.id)
-    except IntegrityError:
-        raise HTTPException(status_code=400, detail="User with this email already exists")
