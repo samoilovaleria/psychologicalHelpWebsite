@@ -45,3 +45,5 @@ async def create_appointment(
         except IntegrityError as e:
             await session.rollback()
             raise ValueError(f"Ошибка при создании встречи: {e.orig}")
+
+        return new_appointment.id

@@ -1,9 +1,10 @@
-from fastapi import HTTPException, APIRouter, Response
+from fastapi import HTTPException, APIRouter, Response, Request
 
 from src.services.appointment_service import (
     get_appointment_by_id,
     create_appointment as srv_create_appointment
 )
+from src.services.users_service import check_user
 
 from src.schemas.appointment_schema import (
     AppointmentBase,
@@ -25,7 +26,8 @@ async def read_appointment(appointment_id: UUID):
 
 
 @router.post("/create", response_model=AppointmentCreateResponse)
-async def create_appointment(appointment: AppointmentCreateRequest):
+async def create_appointment(appointment: AppointmentCreateRequest, request: Request):
+    await check_user(request)
     try:
         appointment_id = await srv_create_appointment(appointment)
     except:

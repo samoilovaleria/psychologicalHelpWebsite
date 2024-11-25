@@ -29,11 +29,11 @@ async def create_appointment(appointment_data):
     status = AppointmentStatus.Accepted
     venue = appointment_data.venue
 
-    role = get_role_by_user_id(appointment_data.therapist_id)
+    role = await get_role_by_user_id(appointment_data.therapist_id)
     if role.role != UserRole.Therapist:
         raise ValueError("The therapist has no therapist role")
 
-    role = get_role_by_user_id(appointment_data.patient_id)
+    role = await get_role_by_user_id(appointment_data.patient_id)
     if role.role not in (UserRole.Student, UserRole.Stuff):
         raise ValueError("The patient has no patient roles")
 
@@ -46,7 +46,7 @@ async def create_appointment(appointment_data):
     elif venue is None:
         raise ValueError("Место для онлайн встречи не указано")
 
-    await db_create_appointment(
+    result = await db_create_appointment(
         appointment_data.patient_id,
         appointment_data.therapist_id,
         appointment_data.type,
@@ -56,3 +56,5 @@ async def create_appointment(appointment_data):
         now,
         venue
     )
+
+    return result
