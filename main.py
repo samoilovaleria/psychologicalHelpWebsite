@@ -1,11 +1,12 @@
 from fastapi import FastAPI
+from fastapi.responses import Response
 from src.routes.routes import api_router
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlalchemy.ext.declarative import declarative_base
-from src.config.database import Base, config, RESET_DB_ON_START
+from src.config.database import Base, config, RESET_DB_ON_START, RESET_COOKIE_ON_START
 
 # # Определяем базу для моделей
 # Base = declarative_base()
@@ -22,6 +23,22 @@ async def reset_database(engine: AsyncEngine):
         await conn.run_sync(Base.metadata.create_all)
 
     # print("Таблицы успешно пересозданы.")
+
+
+async def clear_all_cookies():
+    # Здесь устанавливаем пустые cookie с истекшим временем
+    response = Response()
+    cookies_to_clear = ["access_token"]  # Добавьте имена cookie, которые хотите очистить
+
+    for cookie in cookies_to_clear:
+        response.delete_cookie(
+            key=cookie,
+            httponly=True,
+            secure=False,  # Установите в False для локального тестирования
+            samesite="Lax",  # Используем "Lax" для лучшей совместимости
+        )
+
+    # print("Все cookie успешно очищены при запуске приложения.")
 
 
 # Создаем асинхронный движок подключения
@@ -54,6 +71,10 @@ def get_application() -> FastAPI:
         # Вызов функции сброса и создания таблиц
         if RESET_DB_ON_START:
             await reset_database(engine)
+
+        # Очищаем все cookie
+        if RESET_COOKIE_ON_START:
+            await clear_all_cookies()
 
     return application
 

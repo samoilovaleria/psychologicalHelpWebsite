@@ -20,10 +20,8 @@ async def get_user(user_id: UUID):
 async def create_user(user_data):
     async with get_async_db() as session:
         try:
-            # Хешируем пароль перед сохранением
             hashed_password = hash_password(user_data.password)
 
-            # Создаем объект пользователя с хешированным паролем
             new_user = User(
                 first_name=user_data.first_name,
                 middle_name=user_data.middle_name if user_data.middle_name else None,
@@ -33,35 +31,18 @@ async def create_user(user_data):
                 password=hashed_password,
             )
             
-            # Добавляем нового пользователя в сессию
             session.add(new_user)
-
-            # Коммитим, чтобы получить ID пользователя
             await session.commit()
-            await session.refresh(new_user)
 
-            # Проверка роли и создание роли
             user_role = UserRole(user_data.role) if isinstance(user_data.role, str) else user_data.role
             new_role = Role(user_id=new_user.id, role=user_role)
 
-            # Добавляем роль в сессию
             session.add(new_role)
-
-            # Коммитим роль и обновляем объект роли
             await session.commit()
-            await session.refresh(new_role)
 
-            # Генерируем токен
-            token = create_access_token({"sub": new_user.email})
-
-            return {
-                "user": new_user,
-                "access_token": token,
-                "token_type": "bearer"
-            }
+            return new_user
 
         except IntegrityError as e:
-            # Откатываем транзакцию при ошибке и выводим сообщение
             await session.rollback()
             print(f"Database error: {e.orig}")
             raise ValueError(f"Ошибка при создании пользователя: {e.orig}")

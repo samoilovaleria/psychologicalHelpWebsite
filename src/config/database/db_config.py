@@ -21,6 +21,7 @@ profile = "local-dev"
 config = configurations[profile]
 
 RESET_DB_ON_START = True
+RESET_COOKIE_ON_START = True
 
 engine = create_engine(config.DATABASE_URL, echo=True)
 session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
