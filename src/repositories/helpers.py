@@ -19,16 +19,18 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
 
-def get_user_email_from_token(token: str) -> str:
+async def get_user_email_from_token(token: str) -> str:
     try:
         # Декодируем токен и извлекаем полезные данные
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         
-        # Получаем email пользователя
-        if "email" in payload:
-            return payload["email"]
-        else:
+        # Извлекаем email из поля "sub"
+        email = payload.get("sub")
+        
+        if not email:
             raise ValueError("Email not found in token")
+
+        return email
     
     except ExpiredSignatureError:
         raise ValueError("Token has expired")
@@ -49,6 +51,6 @@ def set_token_in_cookie(response: Response, token: str):
         max_age=timedelta(hours=1),  # Время жизни cookie (например, 1 час)
         expires=timedelta(hours=1),  # Установка времени истечения cookie
         httponly=True,  # Запрещает доступ к cookie через JavaScript
-        secure=True,  # Использовать только через HTTPS
+        secure=False,  # TODO: поменять сервак на HTTPS, чтобы здесь поставить True (Использовать только через HTTPS)
         samesite="Strict",  # Ограничение использования cookie в контексте другого сайта
     )
