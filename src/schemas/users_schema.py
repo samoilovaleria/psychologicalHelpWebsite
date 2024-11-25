@@ -1,19 +1,34 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional 
+from uuid import UUID
 
 class UserCreateRequest(BaseModel):
-    full_name: str
-    phone: str
-    status: str  # "student" или "staff"
-    middle_name: Optional[str] = None
-    email: Optional[EmailStr] = None
-    social_media: Optional[str] = None
+    first_name: str
+    middle_name: str | None = None
+    last_name: str
+    phone_number: str
+    email: EmailStr = None
+    social_media: str | None = None
+    password: str
+    role: str = None
 
 class UserBase(BaseModel):
     first_name: str
-    middle_name: Optional[str] = None
+    middle_name: str | None = None
     last_name: str
     phone_number: str
-    email: Optional[str] = None
-    social_media: Optional[str] = None
+    email: EmailStr = None
+    social_media: str | None = None
+    password: str
+
+class TokenResponse(BaseModel):
+    status_code: int
+    token: str
+
+class IDResponse(BaseModel):
+    status_code: int
+    id: UUID
+
+
+class LoginRequest(BaseModel):
+    email: EmailStr
     password: str
