@@ -9,4 +9,19 @@ async def get_all_therapists(skip: int = 0, take: int = 10):
     Получить список всех психологов с пагинацией
     """
     therapists = await get_therapists_with_pagination(skip=skip, take=take)
-    return therapists
+    return [
+        {
+            "id": str(therapist.id),
+            "experience": therapist.experience,
+            "qualification": therapist.qualification,
+            "consult_areas": therapist.consult_areas,
+            "description": therapist.description,
+            "office": therapist.office,
+            "first_name": therapist.user.first_name,
+            "middle_name": therapist.user.middle_name,
+            "last_name": therapist.user.last_name,
+            "phone_number": therapist.user.phone_number,
+            "email": therapist.user.email,
+        }
+        for therapist in therapists
+    ]

@@ -15,10 +15,12 @@ async def get_therapists_with_pagination(skip: int = 0, take: int = 10):
     Получить список психологов с пагинацией
     """
     async with get_async_db() as session:
-        result = await session.execute(
+        query = await session.execute(
             select(Therapist)
             .options(joinedload(Therapist.user))  # Загрузка связанных данных из модели User
             .offset(skip)
             .limit(take)
         )
-    return result.scalars().all()
+
+    result = query.scalars().all()
+    return result
