@@ -38,11 +38,37 @@ async def register_user(user_data, response: Response):
 
 
 async def get_user_by_id(user_id: UUID):
-    return await get_user(user_id)
+    user = await get_user(user_id)
+
+    if user is None:
+        return None
+
+    return {
+        "id": user.id,
+        "first_name": user.first_name,
+        "middle_name": user.middle_name,
+        "last_name": user.last_name,
+        "phone_number": user.phone_number,
+        "email": user.email,
+        "social_media": user.social_media
+    }
 
 
 async def get_user_by_email(email: str):
-    return await repo_get_user_by_email(email)
+    user = await repo_get_user_by_email(email)
+
+    if user is None:
+        return None
+
+    return {
+        "id": user.id,
+        "first_name": user.first_name,
+        "middle_name": user.middle_name,
+        "last_name": user.last_name,
+        "phone_number": user.phone_number,
+        "email": user.email,
+        "social_media": user.social_media
+    }
 
 
 async def user_login(email: str, password: str, response: Response):

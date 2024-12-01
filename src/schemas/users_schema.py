@@ -23,6 +23,15 @@ class UserBase(BaseModel):
     social_media: str | None = None
     password: str
 
+class UserRequest(BaseModel):
+    id: UUID
+    first_name: str
+    middle_name: str | None = None
+    last_name: str
+    phone_number: str
+    email: EmailStr = None
+    social_media: str | None = None
+
 class TokenResponse(BaseModel):
     status_code: int
     token: str
