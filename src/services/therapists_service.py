@@ -1,5 +1,4 @@
 from src.repositories.therapist_repo import get_therapist, get_therapists_with_pagination
-from src.services.users_service import check_user
 from uuid import UUID
 
 from fastapi import Request
@@ -12,7 +11,6 @@ async def get_all_therapists(request: Request, skip: int = 0, take: int = 10):
     Получить список всех психологов с пагинацией
     """
 
-    await check_user(request)
     therapists = await get_therapists_with_pagination(skip=skip, take=take)
     return [
         {
