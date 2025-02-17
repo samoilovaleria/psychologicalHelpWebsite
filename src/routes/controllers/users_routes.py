@@ -18,6 +18,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 
 @router.get("/user", response_model=UserRequest)
 async def user(
+    request: Request,
     email: Annotated[str | None, Query()] = None,
     id: Annotated[str | None, Query()] = None
 ):
@@ -27,6 +28,14 @@ async def user(
         user = await get_user_by_id(id)
     elif email is not None:
         user = await get_user_by_email(email)
+    else:
+        token = request.cookies.get("access_token")
+        if not token:
+            raise HTTPException(
+                status_code=HTTP_401_UNAUTHORIZED,
+                detail="Not authenticated"
+            )
+        user = await get_user_by_token(token)
 
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
