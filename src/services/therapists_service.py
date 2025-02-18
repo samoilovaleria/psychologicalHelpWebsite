@@ -25,6 +25,8 @@ async def get_all_therapists(request: Request, skip: int = 0, take: int = 10):
             "last_name": therapist.user.last_name,
             "phone_number": therapist.user.phone_number,
             "email": therapist.user.email,
+            "education": therapist.education,
+            "short_description": therapist.short_description,
         }
         for therapist in therapists
     ]

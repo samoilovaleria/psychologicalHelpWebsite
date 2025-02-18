@@ -12,5 +12,7 @@ class Therapist(Base):
     consult_areas = Column(String(128), nullable=False)
     description = Column(String(256), nullable=False)
     office = Column(String(128), nullable=False)
+    education = Column(String(127), nullable=False)
+    short_description = Column(String(2047), nullable=False)
 
     user = relationship("User", back_populates="therapist_info")
