@@ -47,3 +47,25 @@ async def create_appointment(
             raise ValueError(f"Ошибка при создании встречи: {e.orig}")
 
         return new_appointment.id
+
+
+async def cancel_appointment(appointment_id: UUID):
+    async with get_async_db() as session:
+        appointment = await session.execute(
+            select(Appointment).filter(Appointment.id == appointment_id)
+        )
+        appointment = appointment.scalar_one_or_none()
+        
+        if appointment is None:
+            raise ValueError("Встреча не найдена")
+            
+        appointment.status = AppointmentStatus.Cancelled
+        appointment.last_change_time = datetime.utcnow()
+        
+        try:
+            await session.commit()
+        except IntegrityError as e:
+            await session.rollback()
+            raise ValueError(f"Ошибка при отмене встречи: {e.orig}")
+            
+        return appointment

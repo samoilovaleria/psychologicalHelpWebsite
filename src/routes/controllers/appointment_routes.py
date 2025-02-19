@@ -2,7 +2,8 @@ from fastapi import HTTPException, APIRouter, Response, Request
 
 from src.services.appointment_service import (
     get_appointment_by_id,
-    create_appointment as srv_create_appointment
+    create_appointment as srv_create_appointment,
+    cancel_appointment_by_id as srv_cancel_appointment_by_id
 )
 
 from src.schemas.appointment_schema import (
@@ -32,3 +33,14 @@ async def create_appointment(appointment: AppointmentCreateRequest, request: Req
         raise HTTPException(status_code=400, detail="Invalid data")
 
     return {"appointment_id": appointment_id}
+
+
+@router.put("/{appointment_id}/cancel")
+async def cancel_appointment(appointment_id: UUID):
+    try:
+        await srv_cancel_appointment_by_id(appointment_id)
+        return {"message": "Встреча успешно отменена"}
+    except HTTPException as e:
+        raise e
+    except:
+        raise HTTPException(status_code=500, detail="Внутренняя ошибка сервера")

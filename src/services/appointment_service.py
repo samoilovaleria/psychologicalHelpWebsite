@@ -1,7 +1,8 @@
 from fastapi import HTTPException
 from src.repositories.appointment_repo import (
     get_appointment,
-    create_appointment as db_create_appointment
+    create_appointment as db_create_appointment,
+    cancel_appointment
 )
 
 from src.repositories.therapist_repo import get_therapist
@@ -58,3 +59,13 @@ async def create_appointment(appointment_data):
     )
 
     return result
+
+
+async def cancel_appointment_by_id(appointment_id: UUID):
+    try:
+        appointment = await cancel_appointment(appointment_id)
+        return appointment
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
