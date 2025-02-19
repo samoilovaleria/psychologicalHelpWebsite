@@ -1,6 +1,6 @@
 from fastapi import HTTPException, APIRouter
-from src.services.roles_service import get_role_by_id
-from src.schemas.roles_schema import RoleBase
+from services.roles_service import get_role_by_id
+from schemas.roles_schema import RoleBase
 from uuid import UUID
 
 router = APIRouter(prefix="/roles", tags=["roles"])

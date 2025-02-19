@@ -1,8 +1,10 @@
-import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from src.config.database import Base
+from config.database import Base
+
+import uuid
+
 
 class User(Base):
     __tablename__ = 'users'

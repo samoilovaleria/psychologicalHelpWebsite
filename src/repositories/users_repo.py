@@ -1,14 +1,10 @@
-from sqlalchemy.orm import Session
-from src.models.user_model import User
 from sqlalchemy.future import select
-from src.config.database import get_db
-from src.config.database import get_async_db
-from sqlalchemy.ext.asyncio import AsyncSession
-from src.schemas.users_schema import UserCreateRequest
 from sqlalchemy.exc import IntegrityError
-from src.models.roles_model import UserRole, Role
 from sqlalchemy.dialects.postgresql import UUID
-from src.repositories.helpers import create_access_token, hash_password
+from models.user_model import User
+from config.database import get_async_db
+from models.roles_model import UserRole, Role
+from repositories.helpers import hash_password
 
 
 async def get_user(user_id: UUID):

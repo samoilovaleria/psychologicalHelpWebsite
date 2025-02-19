@@ -1,10 +1,10 @@
-import uuid
-import enum
-
 from sqlalchemy import Column, ForeignKey, Enum, PrimaryKeyConstraint
 from sqlalchemy.orm import relationship
-from src.config.database import Base
 from sqlalchemy.dialects.postgresql import UUID
+from config.database import Base
+
+import enum
+
 
 class UserRole(enum.Enum):
     Student = 'Student'

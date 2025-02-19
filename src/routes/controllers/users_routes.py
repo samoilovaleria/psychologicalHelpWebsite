@@ -3,10 +3,10 @@ from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException, Query, APIRouter, Request, Response
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT, HTTP_401_UNAUTHORIZED
-from src.services.users_service import get_user_by_id, user_login, register_user, get_user_by_token, get_token, get_user_by_email
-from src.schemas.users_schema import UserBase, LoginRequest, UserCreateRequest, TokenResponse, IDResponse, UserRequest
-from src.config.database import get_db
-from src.config.database import get_async_db
+from services.users_service import get_user_by_id, user_login, register_user, get_user_by_token, get_token, get_user_by_email
+from schemas.users_schema import UserBase, LoginRequest, UserCreateRequest, TokenResponse, IDResponse, UserRequest
+from config.database import get_db
+from config.database import get_async_db
 from uuid import UUID
 from sqlalchemy.exc import IntegrityError
 

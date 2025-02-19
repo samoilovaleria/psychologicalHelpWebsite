@@ -1,11 +1,11 @@
 from sqlalchemy.exc import IntegrityError
-from src.models.appointments_model import (
+from models.appointments_model import (
     Appointment,
     AppointmentType,
     AppointmentStatus
 )
 
-from src.config.database import get_async_db
+from config.database import get_async_db
 from sqlalchemy.future import select
 from uuid import UUID
 from datetime import datetime

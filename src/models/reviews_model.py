@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Text, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from src.config.database import Base
 from sqlalchemy.dialects.postgresql import UUID
+from config.database import Base
+
 
 class Review(Base):
     __tablename__ = 'reviews'

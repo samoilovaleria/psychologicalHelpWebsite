@@ -1,4 +1,4 @@
-from src.repositories.appointment_repo import (
+from repositories.appointment_repo import (
     AppointmentType,
     AppointmentStatus
 )

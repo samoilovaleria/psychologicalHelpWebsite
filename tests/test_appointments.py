@@ -1,7 +1,7 @@
 import pytest
 from uuid import uuid4
 from datetime import datetime
-from src.models.appointments_model import AppointmentType, AppointmentStatus
+from models.appointments_model import AppointmentType, AppointmentStatus
 
 async def test_cancel_appointment(client, test_db):
     # Создаем тестовую запись

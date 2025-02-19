@@ -1,4 +1,4 @@
-from src.repositories.therapist_repo import get_therapist, get_therapists_with_pagination
+from repositories.therapist_repo import get_therapist, get_therapists_with_pagination
 from uuid import UUID
 
 from fastapi import Request

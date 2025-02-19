@@ -1,12 +1,12 @@
 from fastapi import HTTPException, APIRouter, Response, Request
 
-from src.services.appointment_service import (
+from services.appointment_service import (
     get_appointment_by_id,
     create_appointment as srv_create_appointment,
     cancel_appointment_by_id as srv_cancel_appointment_by_id
 )
 
-from src.schemas.appointment_schema import (
+from schemas.appointment_schema import (
     AppointmentBase,
     AppointmentCreateRequest,
     AppointmentCreateResponse

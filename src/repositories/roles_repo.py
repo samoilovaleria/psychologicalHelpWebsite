@@ -1,6 +1,6 @@
-from src.models.roles_model import Role
+from models.roles_model import Role
 from sqlalchemy.dialects.postgresql import UUID
-from src.config.database import get_async_db
+from config.database import get_async_db
 from sqlalchemy.future import select
 
 

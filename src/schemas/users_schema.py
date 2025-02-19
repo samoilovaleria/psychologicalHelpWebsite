@@ -1,7 +1,7 @@
 from uuid import UUID
 from pydantic import BaseModel, EmailStr, Field
 
-from src.models.roles_model import UserRole
+from models.roles_model import UserRole
 
 class UserCreateRequest(BaseModel):
     first_name: str

@@ -1,10 +1,11 @@
 from sqlalchemy import Column, String, ForeignKey, Enum, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
-from src.config.database import Base
+from config.database import Base
 
 import enum
 import uuid
+
 
 class AppointmentType(enum.Enum):
     Offline = 'Offline'

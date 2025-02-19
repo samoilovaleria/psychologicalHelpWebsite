@@ -1,15 +1,15 @@
 from fastapi import HTTPException
-from src.repositories.appointment_repo import (
+from repositories.appointment_repo import (
     get_appointment,
     create_appointment as db_create_appointment,
     cancel_appointment
 )
 
-from src.repositories.therapist_repo import get_therapist
-from src.repositories.roles_repo import get_role_by_user_id
-from src.models.roles_model import UserRole
+from repositories.therapist_repo import get_therapist
+from repositories.roles_repo import get_role_by_user_id
+from models.roles_model import UserRole
 
-from src.models.appointments_model import (
+from models.appointments_model import (
     AppointmentType,
     AppointmentStatus
 )

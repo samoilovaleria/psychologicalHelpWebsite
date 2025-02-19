@@ -1,8 +1,9 @@
 from fastapi import HTTPException, APIRouter, Query, Request
-from src.services.therapists_service import get_therapist_by_id, get_all_therapists
-from src.schemas.therapist_schema import TherapistBase
 from uuid import UUID
 from typing import List
+
+from services.therapists_service import get_therapist_by_id, get_all_therapists
+from schemas.therapist_schema import TherapistBase
 
 router = APIRouter(prefix="/therapists", tags=["therapists"])
 

@@ -1,5 +1,5 @@
-from src.models.reviews_model import Review
-from src.config.database import get_async_db
+from models.reviews_model import Review
+from config.database import get_async_db
 from sqlalchemy.future import select
 from uuid import UUID
 

@@ -1,5 +1,5 @@
-from src.models.therapists_model import Therapist
-from src.config.database import get_async_db
+from models.therapists_model import Therapist
+from config.database import get_async_db
 from sqlalchemy.future import select
 from sqlalchemy.orm import joinedload
 from uuid import UUID

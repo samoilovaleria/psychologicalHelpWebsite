@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 from fastapi.responses import Response
-from src.routes.routes import api_router
-import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio import AsyncEngine
-from sqlalchemy.ext.declarative import declarative_base
-from src.config.database import Base, config, RESET_DB_ON_START, RESET_COOKIE_ON_START
+from config.database import Base, config, RESET_DB_ON_START, RESET_COOKIE_ON_START
+from routes.routes import api_router
+
+import uvicorn
 
 
 async def reset_database(engine: AsyncEngine):
@@ -57,5 +57,9 @@ def get_application() -> FastAPI:
 app = get_application()
 
 
-if __name__ == "__main__":
+def main():
     uvicorn.run("main:app", host="127.0.0.1", reload=True)
+
+
+if __name__ == "__main__":
+    main()
