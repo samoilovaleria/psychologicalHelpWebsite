@@ -12,6 +12,8 @@ class TherapistBase(BaseModel):
     consult_areas: str
     description: str
     office: str
+    education: str
+    short_description: str
 
     class Config:
         orm_mode = True
