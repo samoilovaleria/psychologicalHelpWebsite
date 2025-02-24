@@ -50,7 +50,7 @@ def set_token_in_cookie(response: Response, token: str):
         value=token,  # Значение cookie (сам токен)
         max_age=timedelta(hours=12),  # Время жизни cookie (например, 1 час)
         expires=timedelta(hours=12),  # Установка времени истечения cookie
-        httponly=False,  # Запрещает доступ к cookie через JavaScript
+        httponly=True,  # Запрещает доступ к cookie через JavaScript
         secure=False,  # TODO: поменять сервак на HTTPS, чтобы здесь поставить True (Использовать только через HTTPS)
-        samesite="Lax",  # Ограничение использования cookie в контексте другого сайта
+        samesite="None",  # Ограничение использования cookie в контексте другого сайта
     )
