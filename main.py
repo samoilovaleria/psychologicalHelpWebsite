@@ -22,7 +22,7 @@ async def clear_all_cookies():
     for cookie in cookies_to_clear:
         response.delete_cookie(
             key=cookie,
-            httponly=True,
+            httponly=False,
             secure=False,
             samesite="Lax",
         )
