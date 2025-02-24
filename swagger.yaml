@@ -214,48 +214,27 @@ components:
           enum: [Student, Therapist, Administrator, Stuff]
 
 paths:
-
-  /users/{user_id}:
+  /users/user:
     get:
       tags:
         - users
-      summary: Получить информацию о пользователе по ID
+      summary: Получить информацию о пользователе по email, id или токену.
       parameters:
-        - name: user_id
-          in: path
-          required: true
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+            format: email
+        - name: id
+          in: query
+          required: false
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: Информация о пользователе
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserBase'
-        '404':
-          description: Пользователь не найден
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  /users/user:
-    get:
-      tags:
-        - users
-      summary: Получить информацию о пользователе по email
-      parameters:
-        - name: email
-          in: query
-          required: true
-          schema:
-            type: string
-            format: email
-      responses:
-        '200':
-          description: Информация о пользователе
+          description: Информация о пользователе. Если нет email или id, то вернется информация о текущем пользователе по токену из куки.
           content:
             application/json:
               schema:
