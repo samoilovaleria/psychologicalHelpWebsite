@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import Request
 
 async def get_therapist_by_id(therapist_id: UUID):
-    therapist = get_therapist(therapist_id)
+    therapist = await get_therapist(therapist_id)
 
     if therapist is None:
         return None
