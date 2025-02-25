@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import jwt
 from jwt import ExpiredSignatureError, InvalidTokenError
 from passlib.context import CryptContext
@@ -54,3 +54,6 @@ def set_token_in_cookie(response: Response, token: str):
         secure=False,  # TODO: поменять сервак на HTTPS, чтобы здесь поставить True (Использовать только через HTTPS)
         samesite="None",  # Ограничение использования cookie в контексте другого сайта
     )
+
+def unset_token_in_cookie(response: Response):
+    response.set_cookie("access_token", "", expires=datetime.fromtimestamp(0, timezone.utc))

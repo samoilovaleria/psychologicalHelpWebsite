@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException, Query, APIRouter, Request, Response
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT, HTTP_401_UNAUTHORIZED
-from services.users_service import get_user_by_id, user_login, register_user, get_user_by_token, get_token, get_user_by_email
+from services.users_service import get_user_by_id, user_login, register_user, get_user_by_token, get_token, get_user_by_email, user_logout
 from schemas.users_schema import UserBase, LoginRequest, UserCreateRequest, TokenResponse, IDResponse, UserRequest
 from config.database import get_db
 from config.database import get_async_db
@@ -64,3 +64,17 @@ async def login(data: LoginRequest, response: Response):
         )
 
     return TokenResponse(status_code=200, token=token['access_token'])
+
+
+@router.post("/logout")
+async def logout(request: Request, response: Response):
+    token = request.cookies.get("access_token")
+    if token is None:
+        raise HTTPException(
+            status_code=HTTP_401_UNAUTHORIZED,
+            detail="Пользователь не авторизован"
+        )
+
+    user_logout(response)
+
+    return Response(status_code=200)
