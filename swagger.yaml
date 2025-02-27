@@ -471,6 +471,32 @@ paths:
                     type: string
                     example: "Внутренняя ошибка сервера"
 
+  /appointments/{user_token}:
+    get:
+      tags:
+        - appointments
+      summary: Получить все записи текущего пользователя
+      description: Возвращает все записи, где пользователь выступает как пациент или как терапевт
+      responses:
+        '200':
+          description: Список записей пользователя
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AppointmentBase'
+        '401':
+          description: Пользователь не аутентифицирован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
 tags:
   - name: users
     description: Операции с пользователями

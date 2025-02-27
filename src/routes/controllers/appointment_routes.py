@@ -1,9 +1,11 @@
 from fastapi import HTTPException, APIRouter, Response, Request
+from typing import List
 
 from services.appointment_service import (
     get_appointment_by_id,
     create_appointment as srv_create_appointment,
-    cancel_appointment_by_id as srv_cancel_appointment_by_id
+    cancel_appointment_by_id as srv_cancel_appointment_by_id,
+    get_appointments_by_token
 )
 
 from schemas.appointment_schema import (
@@ -44,3 +46,13 @@ async def cancel_appointment(appointment_id: UUID):
         raise e
     except:
         raise HTTPException(status_code=500, detail="Внутренняя ошибка сервера")
+
+
+@router.get("/{user_token}", response_model=List[AppointmentBase])
+async def get_my_appointments(request: Request):
+    token = request.cookies.get("access_token")
+    if not token:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    appointments = await get_appointments_by_token(token)
+    return appointments

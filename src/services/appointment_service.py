@@ -2,11 +2,14 @@ from fastapi import HTTPException
 from repositories.appointment_repo import (
     get_appointment,
     create_appointment as db_create_appointment,
-    cancel_appointment
+    cancel_appointment,
+    get_appointments_by_user_id
 )
 
 from repositories.therapist_repo import get_therapist
 from repositories.roles_repo import get_role_by_user_id
+from repositories.helpers import get_user_email_from_token
+from repositories.users_repo import get_user_by_email as repo_get_user_by_email
 from models.roles_model import UserRole
 
 from models.appointments_model import (
@@ -67,5 +70,20 @@ async def cancel_appointment_by_id(appointment_id: UUID):
         return appointment
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+async def get_appointments_by_token(token: str):
+    try:
+        email = await get_user_email_from_token(token)
+        user = await repo_get_user_by_email(email)
+        if not user:
+            raise ValueError("User not found")
+        
+        appointments = await get_appointments_by_user_id(user.id)
+        return appointments
+    except ValueError as e:
+        raise HTTPException(status_code=401, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

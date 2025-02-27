@@ -69,3 +69,13 @@ async def cancel_appointment(appointment_id: UUID):
             raise ValueError(f"Ошибка при отмене встречи: {e.orig}")
             
         return appointment
+
+
+async def get_appointments_by_user_id(user_id: UUID):
+    async with get_async_db() as session:
+        result = await session.execute(
+            select(Appointment).filter(
+                (Appointment.patient_id == user_id) | (Appointment.therapist_id == user_id)
+            )
+        )
+        return result.scalars().all()
