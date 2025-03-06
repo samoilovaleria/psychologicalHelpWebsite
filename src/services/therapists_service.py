@@ -23,6 +23,7 @@ async def get_therapist_by_id(therapist_id: UUID):
         "email": therapist.user.email,
         "education": therapist.education,
         "short_description": therapist.short_description,
+        "photo": therapist.photo,
     }
 
 async def get_all_therapists(request: Request, skip: int = 0, take: int = 10):
@@ -46,6 +47,7 @@ async def get_all_therapists(request: Request, skip: int = 0, take: int = 10):
             "email": therapist.user.email,
             "education": therapist.education,
             "short_description": therapist.short_description,
+            "photo": therapist.photo,
         }
         for therapist in therapists
     ]
