@@ -14,7 +14,7 @@ class TherapistBase(BaseModel):
     office: str
     education: str
     short_description: str
-    photo: str
+    photo: str | None
 
     class Config:
         orm_mode = True
