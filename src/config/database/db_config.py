@@ -17,10 +17,10 @@ configurations = {
 }
 
 # Заменить на dev, чтобы работало с удаленным сервером
-profile = "local-dev"
+profile = "dev"
 config = configurations[profile]
 
-RESET_DB_ON_START = True
+RESET_DB_ON_START = False
 RESET_COOKIE_ON_START = True
 
 engine = create_engine(config.DATABASE_URL, echo=True)
