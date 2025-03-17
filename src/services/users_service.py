@@ -1,5 +1,5 @@
 from repositories.users_repo import get_user, create_user
-from repositories.helpers import create_access_token, verify_password, get_user_email_from_token, get_token_from_cookie, set_token_in_cookie
+from repositories.helpers import create_access_token, verify_password, get_user_email_from_token, get_token_from_cookie, set_token_in_cookie, unset_token_in_cookie
 from repositories.users_repo import get_user, get_user_by_email as repo_get_user_by_email
 from sqlalchemy.dialects.postgresql import UUID
 from fastapi import Request, Response, HTTPException
@@ -63,10 +63,16 @@ async def user_login(email: str, password: str, response: Response):
 
     return {"access_token": token, "token_type": "bearer"}
 
+
+async def user_logout(response: Response):
+    unset_token_in_cookie(response)
+
+
 async def get_user_by_token(token: str):
     email = await get_user_email_from_token(token)
     user = await repo_get_user_by_email(email)
     return user
+
 
 async def get_token(request: Request):
     return await get_token_from_cookie(request)
