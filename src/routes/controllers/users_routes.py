@@ -38,7 +38,7 @@ async def user(
         user = await get_user_by_token(token)
 
     if user is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Пользователь не найден")
 
     return user
 

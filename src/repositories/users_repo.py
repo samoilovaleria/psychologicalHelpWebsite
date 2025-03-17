@@ -8,8 +8,11 @@ from repositories.helpers import hash_password
 
 
 async def get_user(user_id: UUID):
-    async with get_async_db() as session:
-        result = await session.execute(select(User).filter(User.id == user_id))
+    try:
+        async with get_async_db() as session:
+            result = await session.execute(select(User).filter(User.id == user_id))
+    except:
+        return None
     return result.scalar_one_or_none()
 
 
