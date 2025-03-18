@@ -49,8 +49,8 @@ async def register_users(user_data: UserCreateRequest, response: Response):
     try:
         new_user = await register_user(user_data, response)
         return TokenResponse(status_code=201, token=new_user['access_token'])
-    except IntegrityError:
-        raise HTTPException(status_code=400, detail="Пользователь с таким email уже существует")
+    except ValueError:
+        raise HTTPException(status_code=422, detail="Пользователь с таким email уже существует")
 
 
 @router.post("/login", response_model=TokenResponse)
