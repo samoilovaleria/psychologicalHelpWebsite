@@ -1,6 +1,9 @@
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+
+from contextlib import asynccontextmanager
 
 
 class Config:
@@ -20,24 +23,30 @@ configurations = {
     "dev": DevConfig,
 }
 
-# Заменить на dev, чтобы работало с удаленным сервером
 profile = "local-dev"
 config = configurations[profile]
 
 RESET_DB_ON_START = True
 RESET_COOKIE_ON_START = True
 
-engine = create_engine(config.DATABASE_URL, echo=True)
-session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+@asynccontextmanager
+async def get_async_db():
+    from sqlalchemy import exc
+
+    session: AsyncSession = async_session()
+    try:
+        yield session
+    except exc.SQLAlchemyError:
+        await session.rollback()
+        raise
+    finally:
+        await session.close()
 
 
 async_engine = create_async_engine(config.DATABASE_URL, future=True, echo=True)
 async_session = sessionmaker(
     bind=async_engine, class_=AsyncSession, expire_on_commit=False
 )
-
-
-# from sqlalchemy.orm import declarative_base
-from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
