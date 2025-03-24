@@ -37,7 +37,7 @@ def get_application() -> FastAPI:
 
     application.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:3000", "http://localhost:8000", "http://localhost", "http://185.128.105.126:8000", "http://185.128.105.126:3000"],
+        allow_origins=["https://psychohelp.example.com" ,"https://185.128.105.126", "http://localhost:3000", "http://localhost:8000", "http://localhost", "http://185.128.105.126:8000", "http://185.128.105.126:3000"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
