@@ -1,10 +1,10 @@
 from fastapi import HTTPException, APIRouter, Query, Request
 
-from psychohelp.services.therapists_service import (
+from psychohelp.services.therapists import (
     get_therapist_by_id,
     get_all_therapists,
 )
-from psychohelp.schemas.therapist_schema import TherapistBase
+from psychohelp.schemas.therapists import TherapistBase
 
 from uuid import UUID
 

@@ -1,7 +1,7 @@
 from fastapi import HTTPException, APIRouter
 
-from psychohelp.services.roles_service import get_role_by_id
-from psychohelp.schemas.roles_schema import RoleBase
+from psychohelp.services.roles import get_role_by_id
+from psychohelp.schemas.roles import RoleBase
 
 from uuid import UUID
 

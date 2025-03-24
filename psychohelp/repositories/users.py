@@ -1,5 +1,5 @@
-from psychohelp.models.user_model import User
-from psychohelp.models.roles_model import UserRole, Role
+from psychohelp.models.users import User
+from psychohelp.models.roles import UserRole, Role
 from psychohelp.config.database import get_async_db
 from psychohelp.repositories.helpers import hash_password
 

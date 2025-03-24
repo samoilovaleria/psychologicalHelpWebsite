@@ -1,4 +1,4 @@
-from psychohelp.repositories.users_repo import get_user, create_user
+from psychohelp.repositories.users import get_user, create_user
 from psychohelp.repositories.helpers import (
     create_access_token,
     verify_password,
@@ -6,11 +6,11 @@ from psychohelp.repositories.helpers import (
     get_token_from_cookie,
     set_token_in_cookie,
 )
-from psychohelp.repositories.users_repo import (
+from psychohelp.repositories.users import (
     get_user,
     get_user_by_email as repo_get_user_by_email,
 )
-from psychohelp.schemas.users_schema import IDResponse
+from psychohelp.schemas.users import IDResponse
 
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.exc import IntegrityError

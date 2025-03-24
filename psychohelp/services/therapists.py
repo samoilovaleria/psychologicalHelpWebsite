@@ -1,4 +1,4 @@
-from psychohelp.repositories.therapist_repo import (
+from psychohelp.repositories.therapists import (
     get_therapist,
     get_therapists_with_pagination,
 )

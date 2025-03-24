@@ -1,4 +1,4 @@
-from psychohelp.models.roles_model import Role
+from psychohelp.models.roles import Role
 from psychohelp.config.database import get_async_db
 
 from sqlalchemy.future import select

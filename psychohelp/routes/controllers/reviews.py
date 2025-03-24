@@ -1,7 +1,7 @@
 from fastapi import HTTPException, APIRouter
 
-from psychohelp.services.review_service import get_review_by_id
-from psychohelp.schemas.reviews_schema import ReviewsBase
+from psychohelp.services.reviews import get_review_by_id
+from psychohelp.schemas.reviews import ReviewsBase
 
 from uuid import UUID
 

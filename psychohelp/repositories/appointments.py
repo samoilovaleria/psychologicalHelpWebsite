@@ -1,4 +1,4 @@
-from psychohelp.models.appointments_model import (
+from psychohelp.models.appointments import (
     Appointment,
     AppointmentType,
     AppointmentStatus,

@@ -1,4 +1,4 @@
-from psychohelp.models.therapists_model import Therapist
+from psychohelp.models.therapists import Therapist
 from psychohelp.config.database import get_async_db
 
 from sqlalchemy.future import select

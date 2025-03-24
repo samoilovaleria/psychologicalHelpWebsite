@@ -1,4 +1,4 @@
-from psychohelp.models.roles_model import UserRole
+from psychohelp.models.roles import UserRole
 
 from pydantic import BaseModel, EmailStr, Field
 

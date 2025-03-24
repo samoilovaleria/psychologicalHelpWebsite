@@ -1,4 +1,4 @@
-from psychohelp.repositories.roles_repo import get_role_by_user_id
+from psychohelp.repositories.roles import get_role_by_user_id
 
 from uuid import UUID
 

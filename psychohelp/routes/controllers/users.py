@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 
-from psychohelp.services.users_service import (
+from psychohelp.services.users import (
     get_user_by_id,
     user_login,
     register_user,
@@ -18,7 +18,7 @@ from psychohelp.services.users_service import (
     get_token,
     get_user_by_email,
 )
-from psychohelp.schemas.users_schema import (
+from psychohelp.schemas.users import (
     UserBase,
     LoginRequest,
     UserCreateRequest,

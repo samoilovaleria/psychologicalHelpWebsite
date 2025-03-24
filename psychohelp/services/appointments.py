@@ -1,21 +1,21 @@
 from fastapi import HTTPException
 
-from psychohelp.repositories.appointment_repo import (
+from psychohelp.repositories.appointments import (
     get_appointment,
     create_appointment as db_create_appointment,
     cancel_appointment,
     get_appointments_by_user_id,
 )
 
-from psychohelp.repositories.therapist_repo import get_therapist
-from psychohelp.repositories.roles_repo import get_role_by_user_id
+from psychohelp.repositories.therapists import get_therapist
+from psychohelp.repositories.roles import get_role_by_user_id
 from psychohelp.repositories.helpers import get_user_email_from_token
-from psychohelp.repositories.users_repo import (
+from psychohelp.repositories.users import (
     get_user_by_email as repo_get_user_by_email,
 )
 
-from psychohelp.models.roles_model import UserRole
-from psychohelp.models.appointments_model import AppointmentType, AppointmentStatus
+from psychohelp.models.roles import UserRole
+from psychohelp.models.appointments import AppointmentType, AppointmentStatus
 
 from uuid import UUID
 from datetime import datetime
