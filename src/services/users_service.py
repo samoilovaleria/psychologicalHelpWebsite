@@ -64,10 +64,6 @@ async def user_login(email: str, password: str, response: Response):
     return {"access_token": token, "token_type": "bearer"}
 
 
-async def user_logout(response: Response):
-    unset_token_in_cookie(response)
-
-
 async def get_user_by_token(token: str):
     email = await get_user_email_from_token(token)
     user = await repo_get_user_by_email(email)

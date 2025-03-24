@@ -75,6 +75,6 @@ async def logout(request: Request, response: Response):
             detail="Пользователь не авторизован"
         )
 
-    user_logout(response)
+    response.delete_cookie("access_token")
 
     return Response(status_code=200)
