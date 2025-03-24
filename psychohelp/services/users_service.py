@@ -5,7 +5,6 @@ from psychohelp.repositories.helpers import (
     get_user_email_from_token,
     get_token_from_cookie,
     set_token_in_cookie,
-    unset_token_in_cookie,
 )
 from psychohelp.repositories.users_repo import (
     get_user,

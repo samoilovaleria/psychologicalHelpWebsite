@@ -17,7 +17,6 @@ from psychohelp.services.users_service import (
     get_user_by_token,
     get_token,
     get_user_by_email,
-    user_logout,
 )
 from psychohelp.schemas.users_schema import (
     UserBase,
