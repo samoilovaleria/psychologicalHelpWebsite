@@ -56,16 +56,21 @@ async def user_token(request: Request):
     return user
 
 
-@router.get("/user/{user}", response_model=UserResponse)
-async def user(user: EmailStr | UUID):
-    result = None
+@router.get("/user/{id}", response_model=UserResponse)
+async def user(id: EmailStr | UUID):
+    user = None
 
-    if isinstance(user, UUID):
-        result = await get_user_by_id(user)
+    if isinstance(id, UUID):
+        user = await get_user_by_id(id)
     else:
-        result = await get_user_by_email(user)
+        user = await get_user_by_email(id)
 
-    return result
+    if id is None:
+        raise HTTPException(
+            status_code=HTTP_404_NOT_FOUND, detail="Пользователь не найден"
+        )
+
+    return user
 
 
 @router.post("/register", response_model=TokenResponse)
