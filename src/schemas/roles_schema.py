@@ -1,4 +1,4 @@
 from pydantic import BaseModel
 
-class RoleBase(BaseModel):
-    ...
+
+class RoleBase(BaseModel): ...

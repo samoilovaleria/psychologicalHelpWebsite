@@ -5,9 +5,11 @@ from config.database import Base
 
 
 class Therapist(Base):
-    __tablename__ = 'therapists'
+    __tablename__ = "therapists"
 
-    id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
+    id = Column(
+        UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
+    )
     experience = Column(String(64), nullable=False)
     qualification = Column(String(128), nullable=False)
     consult_areas = Column(String(128), nullable=False)

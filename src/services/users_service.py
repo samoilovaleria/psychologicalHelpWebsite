@@ -1,6 +1,16 @@
 from repositories.users_repo import get_user, create_user
-from repositories.helpers import create_access_token, verify_password, get_user_email_from_token, get_token_from_cookie, set_token_in_cookie, unset_token_in_cookie
-from repositories.users_repo import get_user, get_user_by_email as repo_get_user_by_email
+from repositories.helpers import (
+    create_access_token,
+    verify_password,
+    get_user_email_from_token,
+    get_token_from_cookie,
+    set_token_in_cookie,
+    unset_token_in_cookie,
+)
+from repositories.users_repo import (
+    get_user,
+    get_user_by_email as repo_get_user_by_email,
+)
 from sqlalchemy.dialects.postgresql import UUID
 from fastapi import Request, Response, HTTPException
 from sqlalchemy.exc import IntegrityError
@@ -12,11 +22,7 @@ async def register_user(user_data, response: Response):
     new_user = await create_user(user_data)
     token = create_access_token({"sub": new_user.email})
     set_token_in_cookie(response, token)
-    return {
-        "user": new_user,
-        "access_token": token,
-        "token_type": "bearer"
-        }
+    return {"user": new_user, "access_token": token, "token_type": "bearer"}
 
 
 async def get_user_by_id(user_id: UUID):
@@ -32,7 +38,7 @@ async def get_user_by_id(user_id: UUID):
         "last_name": user.last_name,
         "phone_number": user.phone_number,
         "email": user.email,
-        "social_media": user.social_media
+        "social_media": user.social_media,
     }
 
 
@@ -49,7 +55,7 @@ async def get_user_by_email(email: str):
         "last_name": user.last_name,
         "phone_number": user.phone_number,
         "email": user.email,
-        "social_media": user.social_media
+        "social_media": user.social_media,
     }
 
 

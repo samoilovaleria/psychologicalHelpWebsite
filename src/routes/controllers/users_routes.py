@@ -2,9 +2,28 @@ from uuid import UUID
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException, Query, APIRouter, Request, Response
-from starlette.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT, HTTP_401_UNAUTHORIZED
-from services.users_service import get_user_by_id, user_login, register_user, get_user_by_token, get_token, get_user_by_email, user_logout
-from schemas.users_schema import UserBase, LoginRequest, UserCreateRequest, TokenResponse, IDResponse, UserRequest
+from starlette.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_204_NO_CONTENT,
+    HTTP_401_UNAUTHORIZED,
+)
+from services.users_service import (
+    get_user_by_id,
+    user_login,
+    register_user,
+    get_user_by_token,
+    get_token,
+    get_user_by_email,
+    user_logout,
+)
+from schemas.users_schema import (
+    UserBase,
+    LoginRequest,
+    UserCreateRequest,
+    TokenResponse,
+    IDResponse,
+    UserRequest,
+)
 from config.database import get_db
 from config.database import get_async_db
 from uuid import UUID
@@ -20,7 +39,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 async def user(
     request: Request,
     email: Annotated[str | None, Query()] = None,
-    id: Annotated[str | None, Query()] = None
+    id: Annotated[str | None, Query()] = None,
 ):
     user = None
 
@@ -32,8 +51,7 @@ async def user(
         token = request.cookies.get("access_token")
         if not token:
             raise HTTPException(
-                status_code=HTTP_401_UNAUTHORIZED,
-                detail="Not authenticated"
+                status_code=HTTP_401_UNAUTHORIZED, detail="Not authenticated"
             )
         user = await get_user_by_token(token)
 
@@ -48,9 +66,11 @@ async def user(
 async def register_users(user_data: UserCreateRequest, response: Response):
     try:
         new_user = await register_user(user_data, response)
-        return TokenResponse(status_code=201, token=new_user['access_token'])
+        return TokenResponse(status_code=201, token=new_user["access_token"])
     except ValueError:
-        raise HTTPException(status_code=422, detail="Пользователь с таким email уже существует")
+        raise HTTPException(
+            status_code=422, detail="Пользователь с таким email уже существует"
+        )
 
 
 @router.post("/login", response_model=TokenResponse)
@@ -59,11 +79,10 @@ async def login(data: LoginRequest, response: Response):
 
     if not token:
         raise HTTPException(
-            status_code=HTTP_401_UNAUTHORIZED,
-            detail="Invalid credentials"
+            status_code=HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
         )
 
-    return TokenResponse(status_code=200, token=token['access_token'])
+    return TokenResponse(status_code=200, token=token["access_token"])
 
 
 @router.post("/logout")
@@ -71,8 +90,7 @@ async def logout(request: Request, response: Response):
     token = request.cookies.get("access_token")
     if token is None:
         raise HTTPException(
-            status_code=HTTP_401_UNAUTHORIZED,
-            detail="Пользователь не авторизован"
+            status_code=HTTP_401_UNAUTHORIZED, detail="Пользователь не авторизован"
         )
 
     response.delete_cookie("access_token")

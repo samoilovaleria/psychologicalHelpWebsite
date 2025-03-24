@@ -3,7 +3,7 @@ from repositories.appointment_repo import (
     get_appointment,
     create_appointment as db_create_appointment,
     cancel_appointment,
-    get_appointments_by_user_id
+    get_appointments_by_user_id,
 )
 
 from repositories.therapist_repo import get_therapist
@@ -12,10 +12,7 @@ from repositories.helpers import get_user_email_from_token
 from repositories.users_repo import get_user_by_email as repo_get_user_by_email
 from models.roles_model import UserRole
 
-from models.appointments_model import (
-    AppointmentType,
-    AppointmentStatus
-)
+from models.appointments_model import AppointmentType, AppointmentStatus
 
 from uuid import UUID
 from datetime import datetime
@@ -41,7 +38,6 @@ async def create_appointment(appointment_data):
     if role.role not in (UserRole.Student, UserRole.Stuff):
         raise ValueError("The patient has no patient roles")
 
-
     # Встречаемся лично на месте работы психолога
     if appointment_data.type == AppointmentType.Offline:
         therapist = await get_therapist(appointment_data.therapist_id)
@@ -58,7 +54,7 @@ async def create_appointment(appointment_data):
         status,
         remind_time,
         now,
-        venue
+        venue,
     )
 
     return result
@@ -80,7 +76,7 @@ async def get_appointments_by_token(token: str):
         user = await repo_get_user_by_email(email)
         if not user:
             raise ValueError("User not found")
-        
+
         appointments = await get_appointments_by_user_id(user.id)
         return appointments
     except ValueError as e:

@@ -7,9 +7,9 @@ import uuid
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4) 
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
     first_name = Column(String(50), nullable=False)
     middle_name = Column(String(50), nullable=True)
     last_name = Column(String(50), nullable=False)
@@ -19,6 +19,12 @@ class User(Base):
     password = Column(String(64), nullable=False)
 
     roles = relationship("Role", back_populates="user")
-    appointments_as_patient = relationship("Appointment", foreign_keys="[Appointment.patient_id]", back_populates="patient")
-    appointments_as_therapist = relationship("Appointment", foreign_keys="[Appointment.therapist_id]", back_populates="therapist")
+    appointments_as_patient = relationship(
+        "Appointment", foreign_keys="[Appointment.patient_id]", back_populates="patient"
+    )
+    appointments_as_therapist = relationship(
+        "Appointment",
+        foreign_keys="[Appointment.therapist_id]",
+        back_populates="therapist",
+    )
     therapist_info = relationship("Therapist", back_populates="user", uselist=False)

@@ -17,6 +17,7 @@ async def get_therapist(therapist_id: UUID):
 
     return therapist  # Возвращаем загруженный объект
 
+
 async def get_therapists_with_pagination(skip: int = 0, take: int = 10):
     """
     Получить список психологов с пагинацией
@@ -24,7 +25,9 @@ async def get_therapists_with_pagination(skip: int = 0, take: int = 10):
     async with get_async_db() as session:
         query = await session.execute(
             select(Therapist)
-            .options(joinedload(Therapist.user))  # Загрузка связанных данных из модели User
+            .options(
+                joinedload(Therapist.user)
+            )  # Загрузка связанных данных из модели User
             .offset(skip)
             .limit(take)
         )

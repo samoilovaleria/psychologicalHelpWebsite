@@ -1,4 +1,4 @@
 from pydantic import BaseModel
 
-class ReviewsBase(BaseModel):
-    ...
+
+class ReviewsBase(BaseModel): ...

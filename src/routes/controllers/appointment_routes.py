@@ -5,19 +5,20 @@ from services.appointment_service import (
     get_appointment_by_id,
     create_appointment as srv_create_appointment,
     cancel_appointment_by_id as srv_cancel_appointment_by_id,
-    get_appointments_by_token
+    get_appointments_by_token,
 )
 
 from schemas.appointment_schema import (
     AppointmentBase,
     AppointmentCreateRequest,
-    AppointmentCreateResponse
+    AppointmentCreateResponse,
 )
 
 from uuid import UUID
 
 
 router = APIRouter(prefix="/appointments", tags=["appointments"])
+
 
 @router.get("/{appointment_id}", response_model=AppointmentBase)
 async def read_appointment(appointment_id: UUID):
@@ -53,6 +54,6 @@ async def get_my_appointments(request: Request):
     token = request.cookies.get("access_token")
     if not token:
         raise HTTPException(status_code=401, detail="Not authenticated")
-    
+
     appointments = await get_appointments_by_token(token)
     return appointments

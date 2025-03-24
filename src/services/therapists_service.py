@@ -3,6 +3,7 @@ from uuid import UUID
 
 from fastapi import Request
 
+
 async def get_therapist_by_id(therapist_id: UUID):
     therapist = await get_therapist(therapist_id)
 
@@ -25,6 +26,7 @@ async def get_therapist_by_id(therapist_id: UUID):
         "short_description": therapist.short_description,
         "photo": therapist.photo,
     }
+
 
 async def get_all_therapists(request: Request, skip: int = 0, take: int = 10):
     """

@@ -35,11 +35,15 @@ async def create_user(user_data):
                 email=user_data.email,
                 password=hashed_password,
             )
-            
+
             session.add(new_user)
             await session.commit()
 
-            user_role = UserRole(user_data.role) if isinstance(user_data.role, str) else user_data.role
+            user_role = (
+                UserRole(user_data.role)
+                if isinstance(user_data.role, str)
+                else user_data.role
+            )
             new_role = Role(user_id=new_user.id, role=user_role)
 
             session.add(new_role)
@@ -51,7 +55,6 @@ async def create_user(user_data):
             await session.rollback()
             print(f"Database error: {e.orig}")
             raise ValueError(f"Ошибка при создании пользователя: {e.orig}")
-
 
 
 async def get_user_by_email(email: str):

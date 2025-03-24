@@ -1,7 +1,4 @@
-from repositories.appointment_repo import (
-    AppointmentType,
-    AppointmentStatus
-)
+from repositories.appointment_repo import AppointmentType, AppointmentStatus
 
 from pydantic import BaseModel
 

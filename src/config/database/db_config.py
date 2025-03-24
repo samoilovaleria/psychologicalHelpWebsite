@@ -2,14 +2,18 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
+
 class Config:
     DATABASE_URL = ""
+
 
 class LocalDevConfig(Config):
     DATABASE_URL = "postgresql+asyncpg://myuser:mypassword@localhost:5432/mydatabase"
 
+
 class DevConfig(Config):
     DATABASE_URL = "postgresql+asyncpg://a_admin:superStrongPassword@185.128.105.126:5432/psychological"
+
 
 configurations = {
     "local-dev": LocalDevConfig,

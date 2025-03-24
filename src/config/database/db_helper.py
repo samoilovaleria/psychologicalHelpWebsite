@@ -3,6 +3,7 @@ from contextlib import contextmanager
 from .db_config import async_session
 from .db_config import session_local
 
+
 @contextmanager
 def get_db():
     db = session_local()
@@ -14,6 +15,7 @@ def get_db():
 
 # Функция для получения сессии
 from contextlib import asynccontextmanager
+
 
 @asynccontextmanager
 async def get_async_db():

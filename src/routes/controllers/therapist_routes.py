@@ -15,8 +15,11 @@ async def read_appointment(therapist_id: UUID):
         raise HTTPException(status_code=404, detail="Therapist not found")
     return appointment
 
+
 @router.get("/", response_model=List[TherapistBase])
-async def read_therapists(request: Request, skip: int = Query(0, ge=0), take: int = Query(10, gt=0)):
+async def read_therapists(
+    request: Request, skip: int = Query(0, ge=0), take: int = Query(10, gt=0)
+):
     """
     Получить список психологов с пагинацией
     """

@@ -3,6 +3,7 @@ from pydantic import BaseModel, EmailStr, Field
 
 from models.roles_model import UserRole
 
+
 class UserCreateRequest(BaseModel):
     first_name: str
     middle_name: str | None = None
@@ -12,6 +13,7 @@ class UserCreateRequest(BaseModel):
     social_media: str | None = None
     password: str = Field(min_length=8)
     role: UserRole
+
 
 class UserBase(BaseModel):
     id: UUID
@@ -23,6 +25,7 @@ class UserBase(BaseModel):
     social_media: str | None = None
     password: str
 
+
 class UserRequest(BaseModel):
     id: UUID
     first_name: str
@@ -32,9 +35,11 @@ class UserRequest(BaseModel):
     email: EmailStr = None
     social_media: str | None = None
 
+
 class TokenResponse(BaseModel):
     status_code: int
     token: str
+
 
 class IDResponse(BaseModel):
     status_code: int
