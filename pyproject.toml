@@ -24,11 +24,6 @@ psychohelp = "main:main"
 
 [tool.hatch.build.targets.wheel]
 packages = [
-    "src/repositories",
-    "src/schemas",
-    "src/models",
-    "src/routes",
-    "src/config",
-    "src/services",
+    "psychohelp",
     "main.py"
 ]
