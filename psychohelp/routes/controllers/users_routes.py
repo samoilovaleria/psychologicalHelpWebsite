@@ -1,13 +1,16 @@
-from uuid import UUID
-from sqlalchemy.orm import Session
-from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException, Query, APIRouter, Request, Response
+
 from starlette.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_204_NO_CONTENT,
     HTTP_401_UNAUTHORIZED,
 )
-from services.users_service import (
+
+from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.exc import IntegrityError
+
+from psychohelp.services.users_service import (
     get_user_by_id,
     user_login,
     register_user,
@@ -16,7 +19,7 @@ from services.users_service import (
     get_user_by_email,
     user_logout,
 )
-from schemas.users_schema import (
+from psychohelp.schemas.users_schema import (
     UserBase,
     LoginRequest,
     UserCreateRequest,
@@ -24,10 +27,9 @@ from schemas.users_schema import (
     IDResponse,
     UserRequest,
 )
-from config.database import get_db
-from config.database import get_async_db
+from psychohelp.config.database import get_async_db
+
 from uuid import UUID
-from sqlalchemy.exc import IntegrityError
 
 from typing import Annotated
 

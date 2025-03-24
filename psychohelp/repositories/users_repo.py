@@ -1,10 +1,11 @@
+from psychohelp.models.user_model import User
+from psychohelp.models.roles_model import UserRole, Role
+from psychohelp.config.database import get_async_db
+from psychohelp.repositories.helpers import hash_password
+
 from sqlalchemy.future import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.dialects.postgresql import UUID
-from models.user_model import User
-from config.database import get_async_db
-from models.roles_model import UserRole, Role
-from repositories.helpers import hash_password
 
 
 async def get_user(user_id: UUID):

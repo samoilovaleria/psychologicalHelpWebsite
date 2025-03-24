@@ -1,7 +1,11 @@
-from repositories.therapist_repo import get_therapist, get_therapists_with_pagination
-from uuid import UUID
+from psychohelp.repositories.therapist_repo import (
+    get_therapist,
+    get_therapists_with_pagination,
+)
 
 from fastapi import Request
+
+from uuid import UUID
 
 
 async def get_therapist_by_id(therapist_id: UUID):

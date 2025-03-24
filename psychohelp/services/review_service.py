@@ -1,4 +1,5 @@
-from repositories.review_repo import get_review
+from psychohelp.repositories.review_repo import get_review
+
 from uuid import UUID
 
 

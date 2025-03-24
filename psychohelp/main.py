@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
+
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio import AsyncEngine
-from config.database import Base, config, RESET_DB_ON_START, RESET_COOKIE_ON_START
-from routes.routes import api_router
+
+from .config.database import Base, RESET_DB_ON_START, RESET_COOKIE_ON_START
+from .routes.routes import api_router
 
 import uvicorn
 

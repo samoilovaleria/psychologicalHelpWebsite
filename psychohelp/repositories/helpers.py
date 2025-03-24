@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 import jwt
 from jwt import ExpiredSignatureError, InvalidTokenError
 from passlib.context import CryptContext
-from config.configs import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+from psychohelp.config.configs import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 from fastapi import HTTPException, Request, Response
 
 

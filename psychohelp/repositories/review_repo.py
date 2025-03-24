@@ -1,6 +1,8 @@
-from models.reviews_model import Review
-from config.database import get_async_db
+from psychohelp.models.reviews_model import Review
+from psychohelp.config.database import get_async_db
+
 from sqlalchemy.future import select
+
 from uuid import UUID
 
 

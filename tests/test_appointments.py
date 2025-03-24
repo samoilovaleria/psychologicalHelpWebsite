@@ -1,6 +1,8 @@
 import pytest
 from uuid import uuid4
 from datetime import datetime
+
+from psychohelp import models
 from models.appointments_model import AppointmentType, AppointmentStatus
 
 

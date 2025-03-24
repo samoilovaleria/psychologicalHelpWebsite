@@ -1,7 +1,8 @@
-from uuid import UUID
+from psychohelp.models.roles_model import UserRole
+
 from pydantic import BaseModel, EmailStr, Field
 
-from models.roles_model import UserRole
+from uuid import UUID
 
 
 class UserCreateRequest(BaseModel):

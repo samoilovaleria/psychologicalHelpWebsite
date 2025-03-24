@@ -1,14 +1,14 @@
 from fastapi import HTTPException, APIRouter, Response, Request
 from typing import List
 
-from services.appointment_service import (
+from psychohelp.services.appointment_service import (
     get_appointment_by_id,
     create_appointment as srv_create_appointment,
     cancel_appointment_by_id as srv_cancel_appointment_by_id,
     get_appointments_by_token,
 )
 
-from schemas.appointment_schema import (
+from psychohelp.schemas.appointment_schema import (
     AppointmentBase,
     AppointmentCreateRequest,
     AppointmentCreateResponse,

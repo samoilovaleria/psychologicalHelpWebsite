@@ -1,8 +1,13 @@
-from sqlalchemy.exc import IntegrityError
-from models.appointments_model import Appointment, AppointmentType, AppointmentStatus
+from psychohelp.models.appointments_model import (
+    Appointment,
+    AppointmentType,
+    AppointmentStatus,
+)
+from psychohelp.config.database import get_async_db
 
-from config.database import get_async_db
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
+
 from uuid import UUID
 from datetime import datetime
 

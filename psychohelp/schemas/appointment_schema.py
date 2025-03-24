@@ -1,4 +1,4 @@
-from repositories.appointment_repo import AppointmentType, AppointmentStatus
+from psychohelp.repositories.appointment_repo import AppointmentType, AppointmentStatus
 
 from pydantic import BaseModel
 

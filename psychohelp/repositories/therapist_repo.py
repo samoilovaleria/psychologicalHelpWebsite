@@ -1,8 +1,10 @@
-from models.therapists_model import Therapist
-from config.database import get_async_db
+from psychohelp.models.therapists_model import Therapist
+from psychohelp.config.database import get_async_db
+
 from sqlalchemy.future import select
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import selectinload
+
 from uuid import UUID
 
 

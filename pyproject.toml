@@ -20,10 +20,9 @@ dependencies = [
 ]
 
 [project.gui-scripts]
-psychohelp = "main:main"
+psychohelp = "psychohelp:main"
 
 [tool.hatch.build.targets.wheel]
 packages = [
-    "psychohelp",
-    "main.py"
+    "psychohelp"
 ]

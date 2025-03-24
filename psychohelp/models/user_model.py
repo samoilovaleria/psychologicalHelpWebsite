@@ -1,7 +1,8 @@
+from psychohelp.config.database import Base
+
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from config.database import Base
 
 import uuid
 

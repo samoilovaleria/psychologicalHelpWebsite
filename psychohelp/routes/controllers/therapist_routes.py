@@ -1,9 +1,12 @@
 from fastapi import HTTPException, APIRouter, Query, Request
-from uuid import UUID
-from typing import List
 
-from services.therapists_service import get_therapist_by_id, get_all_therapists
-from schemas.therapist_schema import TherapistBase
+from psychohelp.services.therapists_service import (
+    get_therapist_by_id,
+    get_all_therapists,
+)
+from psychohelp.schemas.therapist_schema import TherapistBase
+
+from uuid import UUID
 
 router = APIRouter(prefix="/therapists", tags=["therapists"])
 
@@ -16,7 +19,7 @@ async def read_appointment(therapist_id: UUID):
     return appointment
 
 
-@router.get("/", response_model=List[TherapistBase])
+@router.get("/", response_model=list[TherapistBase])
 async def read_therapists(
     request: Request, skip: int = Query(0, ge=0), take: int = Query(10, gt=0)
 ):

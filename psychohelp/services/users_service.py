@@ -1,5 +1,5 @@
-from repositories.users_repo import get_user, create_user
-from repositories.helpers import (
+from psychohelp.repositories.users_repo import get_user, create_user
+from psychohelp.repositories.helpers import (
     create_access_token,
     verify_password,
     get_user_email_from_token,
@@ -7,15 +7,16 @@ from repositories.helpers import (
     set_token_in_cookie,
     unset_token_in_cookie,
 )
-from repositories.users_repo import (
+from psychohelp.repositories.users_repo import (
     get_user,
     get_user_by_email as repo_get_user_by_email,
 )
+from psychohelp.schemas.users_schema import IDResponse
+
 from sqlalchemy.dialects.postgresql import UUID
-from fastapi import Request, Response, HTTPException
 from sqlalchemy.exc import IntegrityError
 
-from schemas.users_schema import IDResponse
+from fastapi import Request, Response, HTTPException
 
 
 async def register_user(user_data, response: Response):
