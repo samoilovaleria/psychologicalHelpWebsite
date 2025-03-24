@@ -14,8 +14,8 @@ from psychohelp.repositories.users_repo import (
     get_user_by_email as repo_get_user_by_email,
 )
 
-from models.roles_model import UserRole
-from models.appointments_model import AppointmentType, AppointmentStatus
+from psychohelp.models.roles_model import UserRole
+from psychohelp.models.appointments_model import AppointmentType, AppointmentStatus
 
 from uuid import UUID
 from datetime import datetime
