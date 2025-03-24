@@ -13,6 +13,8 @@ dependencies = [
     "SQLAlchemy==2.0.35",
     "asyncpg==0.30.0",
     "pydantic[email]",
+    "pydantic-extra-types",
+    "phonenumbers",
     "passlib",
     "uvicorn",
     "greenlet",

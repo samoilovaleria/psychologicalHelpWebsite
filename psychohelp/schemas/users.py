@@ -1,40 +1,45 @@
 from psychohelp.models.roles import UserRole
 
 from pydantic import BaseModel, EmailStr, Field
+from pydantic_extra_types.phone_numbers import PhoneNumber
 
 from uuid import UUID
 
 
+PhoneNumber.phone_format = "E164"
+PhoneNumber.default_region_code = "+7"
+
+
 class UserCreateRequest(BaseModel):
-    first_name: str
-    middle_name: str | None = None
-    last_name: str
-    phone_number: str
-    email: EmailStr = None
-    social_media: str | None = None
-    password: str = Field(min_length=8)
+    first_name: str = Field(min_length=1, max_length=50)
+    middle_name: str | None = Field(None, min_length=1, max_length=50)
+    last_name: str = Field(min_length=1, max_length=50)
+    phone_number: PhoneNumber
+    email: EmailStr | None = None
+    social_media: str | None = Field(None, max_length=50)
+    password: str = Field(min_length=8, max_length=64)
     role: UserRole
 
 
 class UserBase(BaseModel):
     id: UUID
-    first_name: str
-    middle_name: str | None = None
-    last_name: str
-    phone_number: str
-    email: EmailStr = None
-    social_media: str | None = None
+    first_name: str = Field(min_length=1, max_length=50)
+    middle_name: str | None = Field(None, min_length=1, max_length=50)
+    last_name: str = Field(min_length=1, max_length=50)
+    phone_number: PhoneNumber
+    email: EmailStr | None = None
+    social_media: str | None = Field(None, max_length=50)
     password: str
 
 
-class UserRequest(BaseModel):
+class UserResponse(BaseModel):
     id: UUID
-    first_name: str
-    middle_name: str | None = None
-    last_name: str
-    phone_number: str
-    email: EmailStr = None
-    social_media: str | None = None
+    first_name: str = Field(min_length=1, max_length=50)
+    middle_name: str | None = Field(None, min_length=1, max_length=50)
+    last_name: str = Field(min_length=1, max_length=50)
+    phone_number: PhoneNumber
+    email: EmailStr | None = None
+    social_media: str | None = Field(None, max_length=50)
 
 
 class TokenResponse(BaseModel):
@@ -42,11 +47,6 @@ class TokenResponse(BaseModel):
     token: str
 
 
-class IDResponse(BaseModel):
-    status_code: int
-    id: UUID
-
-
 class LoginRequest(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(min_length=8, max_length=64)

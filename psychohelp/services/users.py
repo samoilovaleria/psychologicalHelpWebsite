@@ -10,7 +10,6 @@ from psychohelp.repositories.users import (
     get_user,
     get_user_by_email as repo_get_user_by_email,
 )
-from psychohelp.schemas.users import IDResponse
 
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.exc import IntegrityError
