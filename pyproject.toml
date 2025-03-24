@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [project.gui-scripts]
-psychohelp = "psychohelp:main"
+psychohelp = "psychohelp:main.main"
 
 [tool.hatch.build.targets.wheel]
 packages = [
