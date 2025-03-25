@@ -46,7 +46,7 @@ class UserResponse(BaseModel):
 
 class TokenResponse(BaseModel):
     status_code: int
-    token: str
+    access_token: str
 
 
 class LoginRequest(BaseModel):
