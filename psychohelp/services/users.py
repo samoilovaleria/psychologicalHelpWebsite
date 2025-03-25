@@ -6,6 +6,8 @@ from psychohelp.repositories.users import (
     create_user,
 )
 
+from uuid import UUID
+
 
 async def get_user_by_id(user_id: UUID):
     return await repo_get_user_by_id(user_id)
