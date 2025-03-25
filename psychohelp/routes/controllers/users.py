@@ -86,7 +86,7 @@ async def register_users(user_data: UserCreateRequest, response: Response):
 
 @router.post("/login", response_model=TokenResponse)
 async def login(data: LoginRequest, response: Response):
-    token = await user_login(data.email, data.password)
+    token = await login_user(data.email, data.password)
     set_token_in_cookie(response, token)
     if token is None or not token:
         raise HTTPException(
