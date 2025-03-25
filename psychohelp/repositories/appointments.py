@@ -12,7 +12,7 @@ from uuid import UUID
 from datetime import datetime
 
 
-async def get_appointment(appointment_id: UUID):
+async def get_appointment_by_id(appointment_id: UUID):
     async with get_async_db() as session:
         result = await session.execute(
             select(Appointment).filter(Appointment.id == appointment_id)
@@ -47,12 +47,12 @@ async def create_appointment(
             await session.commit()
         except IntegrityError as e:
             await session.rollback()
-            raise ValueError(f"Ошибка при создании встречи: {e.orig}")
+            raise
 
-        return new_appointment.id
+        return new_appointment
 
 
-async def cancel_appointment(appointment_id: UUID):
+async def cancel_appointment_by_id(appointment_id: UUID):
     async with get_async_db() as session:
         appointment = await session.execute(
             select(Appointment).filter(Appointment.id == appointment_id)
@@ -62,14 +62,17 @@ async def cancel_appointment(appointment_id: UUID):
         if appointment is None:
             raise ValueError("Встреча не найдена")
 
+        if appointment.status == AppointmentStatus.Cancelled:
+            raise ValueError("Встреча уже отменена")
+
         appointment.status = AppointmentStatus.Cancelled
-        appointment.last_change_time = datetime.utcnow()
+        appointment.last_change_time = datetime.now()
 
         try:
             await session.commit()
         except IntegrityError as e:
             await session.rollback()
-            raise ValueError(f"Ошибка при отмене встречи: {e.orig}")
+            raise
 
         return appointment
 

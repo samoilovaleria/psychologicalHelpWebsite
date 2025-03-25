@@ -7,6 +7,7 @@ from datetime import datetime
 
 
 class AppointmentBase(BaseModel):
+    id: UUID
     patient_id: UUID
     therapist_id: UUID
     type: AppointmentType
@@ -16,15 +17,14 @@ class AppointmentBase(BaseModel):
     last_change_time: datetime
     venue: str
 
+    class Config:
+        from_attributes = True
+
 
 class AppointmentCreateRequest(BaseModel):
     patient_id: UUID
     therapist_id: UUID
     type: AppointmentType
     reason: str | None = None
-    remind_time: str | None = None
+    remind_time: datetime | None = None
     venue: str | None = None
-
-
-class AppointmentCreateResponse(BaseModel):
-    appointment_id: UUID

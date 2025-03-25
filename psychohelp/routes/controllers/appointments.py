@@ -1,18 +1,20 @@
 from fastapi import HTTPException, APIRouter, Response, Request
-from typing import List
+
+from starlette.status import (
+    HTTP_200_OK,
+    HTTP_400_BAD_REQUEST,
+    HTTP_401_UNAUTHORIZED,
+    HTTP_404_NOT_FOUND,
+)
 
 from psychohelp.services.appointments import (
     get_appointment_by_id,
     create_appointment as srv_create_appointment,
-    cancel_appointment_by_id as srv_cancel_appointment_by_id,
+    cancel_appointment_by_id,
     get_appointments_by_token,
+    get_appointments_by_user_id,
 )
-
-from psychohelp.schemas.appointments import (
-    AppointmentBase,
-    AppointmentCreateRequest,
-    AppointmentCreateResponse,
-)
+from psychohelp.schemas.appointments import AppointmentBase, AppointmentCreateRequest
 
 from uuid import UUID
 
@@ -20,40 +22,42 @@ from uuid import UUID
 router = APIRouter(prefix="/appointments", tags=["appointments"])
 
 
-@router.get("/{appointment_id}", response_model=AppointmentBase)
-async def read_appointment(appointment_id: UUID):
-    appointment = await get_appointment_by_id(appointment_id)
-    if appointment is None:
-        raise HTTPException(status_code=404, detail="Appointment not found")
+@router.get("/", response_model=list[AppointmentBase])
+async def get_appointments(request: Request, user_id: UUID | None = None):
+    if user_id is None:
+        if "access_token" not in request.cookies:
+            raise HTTPException(
+                HTTP_401_UNAUTHORIZED, detail="Пользователь не авторизован"
+            )
+        token = request.cookies["access_token"]
+        return await get_appointments_by_token(token)
+
+    return await get_appointments_by_user_id(user_id)
+
+
+@router.post("/create", response_model=AppointmentBase)
+async def create_appointment(appointment: AppointmentCreateRequest, request: Request):
+    try:
+        appointment = await srv_create_appointment(**appointment.model_dump())
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
     return appointment
 
 
-@router.post("/create", response_model=AppointmentCreateResponse)
-async def create_appointment(appointment: AppointmentCreateRequest, request: Request):
-    try:
-        appointment_id = await srv_create_appointment(appointment)
-    except:
-        raise HTTPException(status_code=400, detail="Invalid data")
-
-    return {"appointment_id": appointment_id}
+@router.get("/{id}", response_model=AppointmentBase)
+async def get_appointment(id: UUID):
+    appointment = await get_appointment_by_id(id)
+    if appointment is None:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Встреча не найдена")
+    return appointment
 
 
-@router.put("/{appointment_id}/cancel")
+@router.put("/{id}/cancel")
 async def cancel_appointment(appointment_id: UUID):
     try:
-        await srv_cancel_appointment_by_id(appointment_id)
-        return {"message": "Встреча успешно отменена"}
-    except HTTPException as e:
-        raise e
-    except:
-        raise HTTPException(status_code=500, detail="Внутренняя ошибка сервера")
+        await cancel_appointment_by_id(appointment_id)
+    except ValueError as e:
+        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail=str(e))
 
-
-@router.get("/{user_token}", response_model=List[AppointmentBase])
-async def get_my_appointments(request: Request):
-    token = request.cookies.get("access_token")
-    if not token:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-
-    appointments = await get_appointments_by_token(token)
-    return appointments
+    return Response(None, status_code=HTTP_200_OK)
