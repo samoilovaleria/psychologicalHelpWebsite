@@ -11,7 +11,6 @@ from psychohelp.repositories import get_user_id_from_token
 from psychohelp.repositories.therapists import get_therapist
 from psychohelp.repositories.roles import get_roles_by_user_id
 from psychohelp.repositories.users import get_user_by_id as repo_get_user_by_id
-
 from psychohelp.models.roles import UserRole
 from psychohelp.models.appointments import AppointmentType, AppointmentStatus
 
@@ -33,12 +32,12 @@ async def create_appointment(appointment_data):
 
     roles = await get_roles_by_user_id(appointment_data.therapist_id)
     if UserRole.Therapist not in map(lambda r: r.role, roles):
-        raise ValueError("The therapist has no therapist role")
+        raise ValueError("Психолог не имеет соответствующей роли")
 
     roles = await get_role_by_user_id(appointment_data.patient_id)
-    for r in (UserRole.Student, UserRole.Stuff):
+    for r in UserRole.Client:
         if r not in map(lambda r: r.role, roles):
-            raise ValueError("The patient has no patient roles")
+            raise ValueError("Клиент не имеет соответствующей роли")
 
     # Встречаемся лично на месте работы психолога
     if appointment_data.type == AppointmentType.Offline:

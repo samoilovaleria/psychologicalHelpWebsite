@@ -60,7 +60,7 @@ async def create_user(
             session.add(new_user)
             await session.commit()
 
-            new_role = Role(user_id=new_user.id, role=UserRole.Student)
+            new_role = Role(user_id=new_user.id, role=UserRole.Client)
 
             session.add(new_role)
             await session.commit()

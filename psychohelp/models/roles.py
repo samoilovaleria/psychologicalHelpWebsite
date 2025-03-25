@@ -8,10 +8,9 @@ import enum
 
 
 class UserRole(enum.Enum):
-    Student = "Student"
+    Client = "Client"
     Therapist = "Therapist"
     Administrator = "Administrator"
-    Stuff = "Stuff"
 
 
 class Role(Base):
