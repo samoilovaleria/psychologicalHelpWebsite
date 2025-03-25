@@ -40,6 +40,9 @@ class UserResponse(BaseModel):
     email: EmailStr | None = None
     social_media: str | None = Field(None, max_length=50)
 
+    class Config:
+        from_attributes = True
+
 
 class TokenResponse(BaseModel):
     status_code: int
