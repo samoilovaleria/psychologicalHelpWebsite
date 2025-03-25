@@ -3,6 +3,8 @@ from psychohelp.config import *
 from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
 
+from uuid import UUID
+
 import jwt
 
 
@@ -18,6 +20,19 @@ def create_access_token(sub: str) -> str:
         algorithm=ALGORITHM,
     )
     return encoded
+
+
+def get_user_id_from_token(token: str) -> UUID:
+    try:
+        decoded = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM],
+            options={"verify_iat": True, "verify_exp": True, "verify_signature": True},
+        )
+    except:
+        return None
+    return UUID(decoded["sub"])
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
