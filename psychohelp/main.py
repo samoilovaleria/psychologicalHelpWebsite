@@ -11,7 +11,7 @@ from psychohelp.config.database import (
     RESET_COOKIE_ON_START,
     config,
 )
-from psychohelp.routes.routes import api_router
+from psychohelp.routes import api_router
 
 import uvicorn
 
