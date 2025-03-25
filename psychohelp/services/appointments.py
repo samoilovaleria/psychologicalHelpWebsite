@@ -9,7 +9,7 @@ from psychohelp.repositories.appointments import (
 
 from psychohelp.repositories import get_user_id_from_token
 from psychohelp.repositories.therapists import get_therapist
-from psychohelp.repositories.roles import get_role_by_user_id
+from psychohelp.repositories.roles import get_roles_by_user_id
 from psychohelp.repositories.users import get_user_by_id as repo_get_user_by_id
 
 from psychohelp.models.roles import UserRole
@@ -31,13 +31,14 @@ async def create_appointment(appointment_data):
     status = AppointmentStatus.Accepted
     venue = appointment_data.venue
 
-    role = await get_role_by_user_id(appointment_data.therapist_id)
-    if role.role != UserRole.Therapist:
+    roles = await get_roles_by_user_id(appointment_data.therapist_id)
+    if UserRole.Therapist not in map(lambda r: r.role, roles):
         raise ValueError("The therapist has no therapist role")
 
-    role = await get_role_by_user_id(appointment_data.patient_id)
-    if role.role not in (UserRole.Student, UserRole.Stuff):
-        raise ValueError("The patient has no patient roles")
+    roles = await get_role_by_user_id(appointment_data.patient_id)
+    for r in (UserRole.Student, UserRole.Stuff):
+        if r not in map(lambda r: r.role, roles):
+            raise ValueError("The patient has no patient roles")
 
     # Встречаемся лично на месте работы психолога
     if appointment_data.type == AppointmentType.Offline:
