@@ -5,7 +5,7 @@ from mimetypes import guess_type
 
 import os
 
-router = APIRouter()
+router = APIRouter(tags=["images"])
 
 IMAGE_DIR = "images"  # Папка с изображениями
 
