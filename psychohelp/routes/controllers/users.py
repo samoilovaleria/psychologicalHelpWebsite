@@ -77,7 +77,7 @@ async def register_users(user_data: UserCreateRequest, response: Response):
         token = await register_user(**user_data.model_dump())
         set_token_in_cookie(response, token)
         return JSONResponse(
-            TokenResponse(status_code=HTTP_201_CREATED, access_token=token),
+            {"status_code": HTTP_201_CREATED, "access_token": token},
             HTTP_201_CREATED,
         )
     except ValueError as e:
