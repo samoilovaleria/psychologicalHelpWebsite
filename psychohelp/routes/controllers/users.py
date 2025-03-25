@@ -1,4 +1,5 @@
-from fastapi import Depends, HTTPException, Query, APIRouter, Request, Response
+from fastapi import HTTPException, APIRouter, Request, Response
+from fastapi.responses import JSONResponse
 
 from starlette.status import (
     HTTP_200_OK,
@@ -14,11 +15,10 @@ from sqlalchemy.exc import IntegrityError
 
 from psychohelp.services.users import (
     get_user_by_id,
-    user_login,
-    register_user,
-    get_user_by_token,
-    get_token,
     get_user_by_email,
+    get_user_by_token,
+    login_user,
+    register_user,
 )
 from psychohelp.schemas.users import (
     UserBase,
@@ -29,11 +29,9 @@ from psychohelp.schemas.users import (
     EmailStr,
     UUID,
 )
-from psychohelp.config.database import get_async_db
+from . import set_token_in_cookie
 
 from uuid import UUID
-
-from typing import Annotated
 
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -76,27 +74,26 @@ async def user(id: EmailStr | UUID):
 @router.post("/register", response_model=TokenResponse)
 async def register_users(user_data: UserCreateRequest, response: Response):
     try:
-        new_user = await register_user(user_data, response)
-        return TokenResponse(
-            status_code=HTTP_201_CREATED, token=new_user["access_token"]
+        token = await register_user(user_data)
+        set_token_in_cookie(response, token)
+        return JSONResponse(
+            TokenResponse(status_code=HTTP_201_CREATED, access_token=token),
+            HTTP_201_CREATED,
         )
-    except ValueError:
-        raise HTTPException(
-            status_code=HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Пользователь с таким email уже существует",
-        )
+    except ValueError as e:
+        raise HTTPException(status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
 
 
 @router.post("/login", response_model=TokenResponse)
 async def login(data: LoginRequest, response: Response):
-    token = await user_login(data.email, data.password, response)
-
-    if not token:
+    token = await user_login(data.email, data.password)
+    set_token_in_cookie(response, token)
+    if token is None or not token:
         raise HTTPException(
-            status_code=HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
+            status_code=HTTP_401_UNAUTHORIZED, detail="Неверная почта или пароль"
         )
 
-    return TokenResponse(status_code=HTTP_200_OK, token=token["access_token"])
+    return TokenResponse(status_code=HTTP_200_OK, access_token=token)
 
 
 @router.post("/logout")
