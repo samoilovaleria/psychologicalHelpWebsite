@@ -7,12 +7,10 @@ from psychohelp.repositories.appointments import (
     get_appointments_by_user_id,
 )
 
+from psychohelp.repositories import get_user_id_from_token
 from psychohelp.repositories.therapists import get_therapist
 from psychohelp.repositories.roles import get_role_by_user_id
-from psychohelp.repositories.helpers import get_user_email_from_token
-from psychohelp.repositories.users import (
-    get_user_by_email as repo_get_user_by_email,
-)
+from psychohelp.repositories.users import get_user_by_id as repo_get_user_by_id
 
 from psychohelp.models.roles import UserRole
 from psychohelp.models.appointments import AppointmentType, AppointmentStatus
@@ -75,8 +73,8 @@ async def cancel_appointment_by_id(appointment_id: UUID):
 
 async def get_appointments_by_token(token: str):
     try:
-        email = await get_user_email_from_token(token)
-        user = await repo_get_user_by_email(email)
+        id = await get_user_id_from_token(token)
+        user = await repo_get_user_by_id(id)
         if not user:
             raise ValueError("User not found")
 
