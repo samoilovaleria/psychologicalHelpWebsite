@@ -40,12 +40,12 @@ async def create_user(
     async with get_async_db() as session:
         try:
             existing_user = await session.execute(
-                select(User).filter(User.email == user_data.email)
+                select(User).filter(User.email == email)
             )
             if existing_user.scalar_one_or_none():
                 raise ValueError("Пользователь с таким email уже существует")
 
-            hashed_password = hash_password(user_data.password)
+            hashed_password = hash_password(password)
 
             new_user = User(
                 first_name=first_name,

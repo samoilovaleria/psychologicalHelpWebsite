@@ -74,7 +74,7 @@ async def user(id: EmailStr | UUID):
 @router.post("/register", response_model=TokenResponse)
 async def register_users(user_data: UserCreateRequest, response: Response):
     try:
-        token = await register_user(user_data)
+        token = await register_user(**user_data.model_dump())
         set_token_in_cookie(response, token)
         return JSONResponse(
             TokenResponse(status_code=HTTP_201_CREATED, access_token=token),
