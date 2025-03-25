@@ -1,7 +1,7 @@
 from psychohelp.models.users import User
 from psychohelp.models.roles import UserRole, Role
 from psychohelp.config.database import get_async_db
-from psychohelp.repositories.helpers import hash_password
+from psychohelp.repositories import hash_password
 
 from sqlalchemy.future import select
 from sqlalchemy.exc import IntegrityError
