@@ -1,14 +1,14 @@
 from psychohelp.models.users import User
 from psychohelp.models.roles import UserRole, Role
 from psychohelp.config.database import get_async_db
-from psychohelp.repositories import hash_password
+from psychohelp.repositories import hash_password, get_user_id_from_token
 
 from sqlalchemy.future import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.dialects.postgresql import UUID
 
 
-async def get_user(user_id: UUID):
+async def get_user_by_id(user_id: UUID):
     try:
         async with get_async_db() as session:
             result = await session.execute(select(User).filter(User.id == user_id))
@@ -17,7 +17,26 @@ async def get_user(user_id: UUID):
     return result.scalar_one_or_none()
 
 
-async def create_user(user_data):
+async def get_user_by_email(email: str):
+    async with get_async_db() as session:
+        result = await session.execute(select(User).filter(User.email == email))
+    return result.scalar_one_or_none()
+
+
+async def get_user_by_token(token: str):
+    id = get_user_id_from_token(token)
+    return await get_user_by_id(id)
+
+
+async def create_user(
+    first_name: str,
+    last_name: str,
+    phone_number: str,
+    email: str,
+    password: str,
+    middle_name: str | None = None,
+    social_media: str | None = None,
+):
     async with get_async_db() as session:
         try:
             existing_user = await session.execute(
@@ -29,23 +48,19 @@ async def create_user(user_data):
             hashed_password = hash_password(user_data.password)
 
             new_user = User(
-                first_name=user_data.first_name,
-                middle_name=user_data.middle_name if user_data.middle_name else None,
-                last_name=user_data.last_name,
-                phone_number=user_data.phone_number,
-                email=user_data.email,
+                first_name=first_name,
+                middle_name=middle_name,
+                last_name=last_name,
+                phone_number=phone_number,
+                email=email,
+                social_media=social_media,
                 password=hashed_password,
             )
 
             session.add(new_user)
             await session.commit()
 
-            user_role = (
-                UserRole(user_data.role)
-                if isinstance(user_data.role, str)
-                else user_data.role
-            )
-            new_role = Role(user_id=new_user.id, role=user_role)
+            new_role = Role(user_id=new_user.id, role=UserRole.Student)
 
             session.add(new_role)
             await session.commit()
@@ -54,11 +69,4 @@ async def create_user(user_data):
 
         except IntegrityError as e:
             await session.rollback()
-            print(f"Database error: {e.orig}")
-            raise ValueError(f"Ошибка при создании пользователя: {e.orig}")
-
-
-async def get_user_by_email(email: str):
-    async with get_async_db() as session:
-        result = await session.execute(select(User).filter(User.email == email))
-    return result.scalar_one_or_none()
+            raise
