@@ -34,10 +34,6 @@ async def create_appointment(
     if UserRole.Therapist not in map(lambda r: r.role, roles):
         raise ValueError("Психолог не имеет соответствующей роли")
 
-    roles = await get_roles_by_user_id(patient_id)
-    if UserRole.Client not in map(lambda r: r.role, roles):
-        raise ValueError("Клиент не имеет соответствующей роли")
-
     # Встречаемся лично на месте работы психолога
     if type == AppointmentType.Offline:
         therapist = await get_therapist(therapist_id)

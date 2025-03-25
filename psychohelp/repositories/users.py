@@ -2,6 +2,7 @@ from psychohelp.models.users import User
 from psychohelp.models.roles import UserRole, Role
 from psychohelp.config.database import get_async_db
 from psychohelp.repositories import hash_password, get_user_id_from_token
+from psychohelp.repositories.roles import add_roles_by_user_id
 
 from sqlalchemy.future import select
 from sqlalchemy.exc import IntegrityError
@@ -33,7 +34,7 @@ async def create_user(
     last_name: str,
     phone_number: str,
     email: str,
-    password: str,
+    hashed_password: str,
     middle_name: str | None = None,
     social_media: str | None = None,
 ):
@@ -44,8 +45,6 @@ async def create_user(
             )
             if existing_user.scalar_one_or_none():
                 raise ValueError("Пользователь с таким email уже существует")
-
-            hashed_password = hash_password(password)
 
             new_user = User(
                 first_name=first_name,
@@ -59,12 +58,6 @@ async def create_user(
 
             session.add(new_user)
             await session.commit()
-
-            new_role = Role(user_id=new_user.id, role=UserRole.Client)
-
-            session.add(new_role)
-            await session.commit()
-
             return new_user
 
         except IntegrityError as e:

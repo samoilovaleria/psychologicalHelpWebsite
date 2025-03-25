@@ -8,7 +8,6 @@ import enum
 
 
 class UserRole(enum.Enum):
-    Client = "Client"
     Therapist = "Therapist"
     Administrator = "Administrator"
 
