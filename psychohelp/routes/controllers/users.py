@@ -66,28 +66,31 @@ async def user(id: EmailStr | UUID):
 
 
 @router.post("/register", response_model=TokenResponse)
-async def register_users(user_data: UserCreateRequest, response: Response):
+async def register_users(user_data: UserCreateRequest, response: JSONResponse):
     try:
         token = await register_user(**user_data.model_dump())
         set_token_in_cookie(response, token)
-        return JSONResponse(
-            {"status_code": HTTP_201_CREATED, "access_token": token},
-            HTTP_201_CREATED,
-        )
+        response.status_code = HTTP_201_CREATED
+        response = {"status_code": HTTP_201_CREATED, "access_token": token}
+
+        return response
     except ValueError as e:
         raise HTTPException(status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
 
 
 @router.post("/login", response_model=TokenResponse)
-async def login(data: LoginRequest, response: Response):
+async def login(data: LoginRequest, response: JSONResponse):
     token = await login_user(data.email, data.password)
-    set_token_in_cookie(response, token)
     if token is None or not token:
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED, detail="Неверная почта или пароль"
         )
 
-    return TokenResponse(status_code=HTTP_200_OK, access_token=token)
+    set_token_in_cookie(response, token)
+    response.status_code = HTTP_200_OK
+    response.body = {"status_code": HTTP_200_OK, "access_token": token}
+
+    return response
 
 
 @router.post("/logout")
