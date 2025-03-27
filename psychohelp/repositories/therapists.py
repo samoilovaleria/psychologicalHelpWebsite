@@ -12,12 +12,12 @@ async def get_therapist(therapist_id: UUID):
     async with get_async_db() as session:
         result = await session.execute(
             select(Therapist)
-            .options(selectinload(Therapist.user))  # Загружаем связанные данные сразу
+            .options(selectinload(Therapist.user))
             .filter(Therapist.id == therapist_id)
         )
         therapist = result.scalar_one_or_none()
 
-    return therapist  # Возвращаем загруженный объект
+    return therapist
 
 
 async def get_therapists_with_pagination(skip: int = 0, take: int = 10):
@@ -27,9 +27,7 @@ async def get_therapists_with_pagination(skip: int = 0, take: int = 10):
     async with get_async_db() as session:
         query = await session.execute(
             select(Therapist)
-            .options(
-                joinedload(Therapist.user)
-            )  # Загрузка связанных данных из модели User
+            .options(joinedload(Therapist.user))
             .offset(skip)
             .limit(take)
         )
