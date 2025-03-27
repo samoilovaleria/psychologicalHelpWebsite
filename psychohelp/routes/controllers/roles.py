@@ -12,9 +12,8 @@ from psychohelp.services.roles import (
     add_roles_by_user_id,
     delete_roles_by_user_id,
     UserRole,
+    UUID,
 )
-
-from uuid import UUID
 
 router = APIRouter(prefix="/roles", tags=["roles"])
 

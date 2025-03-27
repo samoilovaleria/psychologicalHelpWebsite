@@ -4,15 +4,14 @@ from psychohelp.repositories.appointments import (
     create_appointment as repo_create_appointment,
     cancel_appointment_by_id as repo_cancel_appointment_by_id,
     get_appointments_by_user_id as repo_get_appointments_by_user_id,
+    UUID,
+    datetime,
 )
 from psychohelp.repositories.therapists import get_therapist
 from psychohelp.repositories.roles import get_roles_by_user_id
 from psychohelp.repositories.users import get_user_by_id as repo_get_user_by_id
 from psychohelp.models.roles import UserRole
 from psychohelp.models.appointments import AppointmentType, AppointmentStatus
-
-from uuid import UUID
-from datetime import datetime
 
 
 async def get_appointment_by_id(appointment_id: UUID):

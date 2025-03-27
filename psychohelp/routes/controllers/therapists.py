@@ -1,12 +1,7 @@
 from fastapi import HTTPException, APIRouter, Query, Request
 
-from psychohelp.services.therapists import (
-    get_therapist_by_id,
-    get_all_therapists,
-)
+from psychohelp.services.therapists import get_therapist_by_id, get_all_therapists, UUID
 from psychohelp.schemas.therapists import TherapistBase
-
-from uuid import UUID
 
 router = APIRouter(prefix="/therapists", tags=["therapists"])
 
@@ -26,7 +21,7 @@ async def read_therapists(
     """
     Получить список психологов с пагинацией
     """
-    therapists = await get_all_therapists(request, skip=skip, take=take)
+    therapists = await get_all_therapists(skip=skip, take=take)
     if not therapists:
         raise HTTPException(status_code=404, detail="No therapists found")
     return therapists

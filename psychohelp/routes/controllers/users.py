@@ -9,16 +9,13 @@ from starlette.status import (
     HTTP_422_UNPROCESSABLE_ENTITY,
 )
 
-from sqlalchemy.orm import Session
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.exc import IntegrityError
-
 from psychohelp.services.users import (
     get_user_by_id,
     get_user_by_email,
     get_user_by_token,
     login_user,
     register_user,
+    UUID,
 )
 from psychohelp.schemas.users import (
     UserBase,
@@ -27,11 +24,8 @@ from psychohelp.schemas.users import (
     TokenResponse,
     UserResponse,
     EmailStr,
-    UUID,
 )
 from . import set_token_in_cookie
-
-from uuid import UUID
 
 
 router = APIRouter(prefix="/users", tags=["users"])

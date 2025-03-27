@@ -1,11 +1,8 @@
 from psychohelp.repositories.therapists import (
     get_therapist,
     get_therapists_with_pagination,
+    UUID,
 )
-
-from fastapi import Request
-
-from uuid import UUID
 
 
 async def get_therapist_by_id(therapist_id: UUID):
@@ -32,7 +29,7 @@ async def get_therapist_by_id(therapist_id: UUID):
     }
 
 
-async def get_all_therapists(request: Request, skip: int = 0, take: int = 10):
+async def get_all_therapists(skip: int = 0, take: int = 10):
     """
     Получить список всех психологов с пагинацией
     """

@@ -1,7 +1,7 @@
 from psychohelp.models.reviews import Review
 from psychohelp.config.database import get_async_db
 
-from sqlalchemy.future import select
+from sqlalchemy import select
 
 from uuid import UUID
 

@@ -13,10 +13,9 @@ from psychohelp.services.appointments import (
     cancel_appointment_by_id,
     get_appointments_by_token,
     get_appointments_by_user_id,
+    UUID,
 )
 from psychohelp.schemas.appointments import AppointmentBase, AppointmentCreateRequest
-
-from uuid import UUID
 
 
 router = APIRouter(prefix="/appointments", tags=["appointments"])
