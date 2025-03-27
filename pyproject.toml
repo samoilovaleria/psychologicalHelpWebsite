@@ -9,6 +9,9 @@ description = "Psychological help website"
 requires-python = ">=3.8"
 dependencies = [
     "fastapi==0.115.0",
+    "httpx",
+    "pytest",
+    "anyio",
     "pyjwt==2.9.0",
     "SQLAlchemy==2.0.35",
     "asyncpg==0.30.0",
@@ -28,3 +31,8 @@ psychohelp = "psychohelp:main.main"
 packages = [
     "psychohelp"
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_default_fixture_loop_scope = "module"
+asyncio_mode = "auto"
