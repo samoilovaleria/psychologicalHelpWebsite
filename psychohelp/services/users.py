@@ -40,7 +40,7 @@ async def register_user(
         middle_name,
         social_media,
     )
-    return create_access_token(new_user.id)
+    return new_user, create_access_token(new_user.id)
 
 
 async def login_user(email: str, password: str):
@@ -48,4 +48,4 @@ async def login_user(email: str, password: str):
     if user is None or not verify_password(password, user.password):
         return None
 
-    return create_access_token(user.id)
+    return user, create_access_token(user.id)
