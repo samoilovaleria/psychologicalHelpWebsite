@@ -1,5 +1,4 @@
 from fastapi import HTTPException, APIRouter, Request, Response
-from fastapi.responses import JSONResponse
 
 from starlette.status import (
     HTTP_200_OK,
@@ -65,29 +64,30 @@ async def user(id: EmailStr | UUID):
     return user
 
 
-@router.post("/register", response_model=TokenResponse)
+@router.post("/register", response_model=UserResponse)
 async def register_users(user_data: UserCreateRequest, response: Response):
     try:
-        token = await register_user(**user_data.model_dump())
+        user, token = await register_user(**user_data.model_dump())
         set_token_in_cookie(response, token)
-        return JSONResponse(
-            {"status_code": HTTP_201_CREATED, "access_token": token},
-            HTTP_201_CREATED,
-        )
+        response.status_code = HTTP_201_CREATED
     except ValueError as e:
         raise HTTPException(status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
 
+    return user
 
-@router.post("/login", response_model=TokenResponse)
+
+@router.post("/login", response_model=UserResponse)
 async def login(data: LoginRequest, response: Response):
-    token = await login_user(data.email, data.password)
-    set_token_in_cookie(response, token)
+    user, token = await login_user(data.email, data.password)
     if token is None or not token:
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED, detail="Неверная почта или пароль"
         )
 
-    return TokenResponse(status_code=HTTP_200_OK, access_token=token)
+    set_token_in_cookie(response, token)
+    response.status_code = HTTP_200_OK
+
+    return user
 
 
 @router.post("/logout")
