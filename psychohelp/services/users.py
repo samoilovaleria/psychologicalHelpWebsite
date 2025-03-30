@@ -19,7 +19,7 @@ async def get_user_by_email(email: str):
 
 
 async def get_user_by_token(token: str):
-    return repo_get_user_by_token(token)
+    return await repo_get_user_by_token(token)
 
 
 async def register_user(
