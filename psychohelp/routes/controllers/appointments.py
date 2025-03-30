@@ -53,9 +53,9 @@ async def get_appointment(id: UUID):
 
 
 @router.put("/{id}/cancel")
-async def cancel_appointment(appointment_id: UUID):
+async def cancel_appointment(id: UUID):
     try:
-        await cancel_appointment_by_id(appointment_id)
+        await cancel_appointment_by_id(id)
     except ValueError as e:
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail=str(e))
 
