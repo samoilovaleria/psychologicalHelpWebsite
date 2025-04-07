@@ -1,7 +1,7 @@
 from psychohelp.models.roles import Role, UserRole
 from psychohelp.config.database import get_async_db
 
-from sqlalchemy import insert, select, delete
+from sqlalchemy import select, delete
 
 from uuid import UUID
 

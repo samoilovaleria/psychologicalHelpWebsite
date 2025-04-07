@@ -4,10 +4,8 @@ from psychohelp.repositories.users import (
     get_user_by_email as repo_get_user_by_email,
     get_user_by_token as repo_get_user_by_token,
     create_user,
-    UserRole,
     UUID,
 )
-from psychohelp.repositories.roles import add_roles_by_user_id
 
 
 async def get_user_by_id(user_id: UUID):

@@ -17,10 +17,8 @@ from psychohelp.services.users import (
     UUID,
 )
 from psychohelp.schemas.users import (
-    UserBase,
     LoginRequest,
     UserCreateRequest,
-    TokenResponse,
     UserResponse,
     EmailStr,
 )

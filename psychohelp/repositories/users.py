@@ -1,8 +1,6 @@
 from psychohelp.models.users import User
-from psychohelp.models.roles import UserRole, Role
 from psychohelp.config.database import get_async_db
-from psychohelp.repositories import hash_password, get_user_id_from_token, UUID
-from psychohelp.repositories.roles import add_roles_by_user_id
+from psychohelp.repositories import get_user_id_from_token, UUID
 
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
@@ -59,6 +57,6 @@ async def create_user(
             await session.commit()
             return new_user
 
-        except IntegrityError as e:
+        except IntegrityError:
             await session.rollback()
             raise

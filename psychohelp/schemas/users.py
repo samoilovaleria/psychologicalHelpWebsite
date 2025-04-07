@@ -1,5 +1,3 @@
-from psychohelp.models.roles import UserRole
-
 from pydantic import BaseModel, EmailStr, Field
 from pydantic_extra_types.phone_numbers import PhoneNumber
 

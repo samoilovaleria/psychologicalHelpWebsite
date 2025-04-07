@@ -9,7 +9,6 @@ from psychohelp.repositories.appointments import (
 )
 from psychohelp.repositories.therapists import get_therapist
 from psychohelp.repositories.roles import get_roles_by_user_id
-from psychohelp.repositories.users import get_user_by_id as repo_get_user_by_id
 from psychohelp.models.roles import UserRole
 from psychohelp.models.appointments import AppointmentType, AppointmentStatus
 

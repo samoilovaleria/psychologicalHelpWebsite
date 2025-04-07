@@ -45,7 +45,7 @@ async def create_appointment(
         try:
             session.add(new_appointment)
             await session.commit()
-        except IntegrityError as e:
+        except IntegrityError:
             await session.rollback()
             raise
 
@@ -70,7 +70,7 @@ async def cancel_appointment_by_id(appointment_id: UUID):
 
         try:
             await session.commit()
-        except IntegrityError as e:
+        except IntegrityError:
             await session.rollback()
             raise
 
