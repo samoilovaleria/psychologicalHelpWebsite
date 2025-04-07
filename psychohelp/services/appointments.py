@@ -35,6 +35,8 @@ async def create_appointment(
     # Встречаемся лично на месте работы психолога
     if type == AppointmentType.Offline:
         therapist = await get_therapist_by_id(therapist_id)
+        if therapist is None:
+            raise ValueError("Психолог не найден")
         venue = therapist.office
 
     elif venue is None:
