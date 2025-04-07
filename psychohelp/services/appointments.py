@@ -7,7 +7,7 @@ from psychohelp.repositories.appointments import (
     UUID,
     datetime,
 )
-from psychohelp.repositories.therapists import get_therapist
+from psychohelp.repositories.therapists import get_therapist_by_id
 from psychohelp.repositories.roles import get_roles_by_user_id
 from psychohelp.models.roles import UserRole
 from psychohelp.models.appointments import AppointmentType, AppointmentStatus
@@ -34,7 +34,7 @@ async def create_appointment(
 
     # Встречаемся лично на месте работы психолога
     if type == AppointmentType.Offline:
-        therapist = await get_therapist(therapist_id)
+        therapist = await get_therapist_by_id(therapist_id)
         venue = therapist.office
 
     elif venue is None:

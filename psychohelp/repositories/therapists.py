@@ -8,7 +8,7 @@ from sqlalchemy.orm import selectinload
 from uuid import UUID
 
 
-async def get_therapist(therapist_id: UUID):
+async def get_therapist_by_id(therapist_id: UUID):
     async with get_async_db() as session:
         result = await session.execute(
             select(Therapist)
@@ -20,7 +20,7 @@ async def get_therapist(therapist_id: UUID):
     return therapist
 
 
-async def get_therapists_with_pagination(skip: int = 0, take: int = 10):
+async def get_therapists(skip: int = 0, take: int = 10):
     """
     Получить список психологов с пагинацией
     """

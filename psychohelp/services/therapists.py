@@ -1,12 +1,12 @@
 from psychohelp.repositories.therapists import (
-    get_therapist,
-    get_therapists_with_pagination,
+    get_therapist_by_id as repo_get_therapist_by_id,
+    get_therapists as repo_get_therapists,
     UUID,
 )
 
 
 async def get_therapist_by_id(therapist_id: UUID):
-    therapist = await get_therapist(therapist_id)
+    therapist = await repo_get_therapist_by_id(therapist_id)
 
     if therapist is None:
         return None
@@ -29,12 +29,12 @@ async def get_therapist_by_id(therapist_id: UUID):
     }
 
 
-async def get_all_therapists(skip: int = 0, take: int = 10):
+async def get_therapists(skip: int = 0, take: int = 10):
     """
     Получить список всех психологов с пагинацией
     """
 
-    therapists = await get_therapists_with_pagination(skip=skip, take=take)
+    therapists = await repo_get_therapists(skip=skip, take=take)
     return [
         {
             "id": str(therapist.id),
