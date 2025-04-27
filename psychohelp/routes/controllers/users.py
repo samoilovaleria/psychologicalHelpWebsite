@@ -99,5 +99,4 @@ async def logout(request: Request, response: Response):
         )
 
     response.delete_cookie("access_token")
-
-    return Response(status_code=HTTP_200_OK)
+    response.status_code = HTTP_200_OK
